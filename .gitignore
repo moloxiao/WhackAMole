@@ -38,17 +38,11 @@ _ReSharper*/
 *.sdf
 
 # Ignore Android SDK, NDK, Eclipse plugin and ANT files
-local.properties
+proj.android/local.properties
 proj.android/gen/
 proj.android/bin/
 proj.android/obj/
 
-StarPay/gen/
-StarPay/bin/
-
-
-# Ignore files build by airplay
-build_*_xcode/
 
 # Ignore files build by xcode
 *.mode*v*
@@ -70,7 +64,6 @@ build/
 Simulator/
 Device-Debug/
 Device-Release/
-/proj.android/*.properties
-/proj.android/project.properties
-*.properties
+
+
 /proj.android/libs/armeabi/libcocos2dcpp.so

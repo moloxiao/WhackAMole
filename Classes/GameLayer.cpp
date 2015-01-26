@@ -1,4 +1,5 @@
 #include "GameLayer.h"
+#include "GameResultScene.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
@@ -94,6 +95,9 @@ bool GameLayer::init(){
 	// Ìí¼Ó¼àÌýÆ÷
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 	
+	// Ìí¼ÓTopMenu
+	menu = TopMenu::getInstance();
+	this->addChild(menu, 10);
 
 	return true;
 }
@@ -138,4 +142,8 @@ void GameLayer::unHit(Ref* pSender)
 {
     Sprite* mole = (Sprite*)pSender;
     mole->setTag(0);
+}
+
+void GameLayer::toResultScene() {
+	Director::getInstance()->replaceScene(TransitionFade::create(1,GameResultScene::create()));
 }

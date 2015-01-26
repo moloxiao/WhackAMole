@@ -1,5 +1,6 @@
 #include "GameLayer.h"
 #include "GameResultScene.h"
+#include "GAMEDATA.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
@@ -160,6 +161,7 @@ void GameLayer::unHit(Ref* pSender)
 }
 
 void GameLayer::toResultScene() {
+	GAMEDATA::getInstance()->setGameScore(gameScore);
 	Director::getInstance()->replaceScene(TransitionFade::create(1,GameResultScene::create()));
 }
 

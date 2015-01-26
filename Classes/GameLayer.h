@@ -11,6 +11,7 @@ class GameLayer : public Layer{
 	
 public:
 	static const int DEFAULT_GAME_TIME = 20;
+	static const int DEFAUL_SCORE_ADD = 100;
 	virtual bool init();
 	CREATE_FUNC(GameLayer);
 	void randomPopMoles(float delta);
@@ -24,5 +25,7 @@ private:
 	int gameTime;	// 游戏结束时间
 	bool gamePause;
 	bool gameOver;
+	int gameScore;
+	int gameScoreAdd;
 };
 #endif

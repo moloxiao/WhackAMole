@@ -21,9 +21,8 @@ bool TopMenu::init(){
 	
 	// 初始化界面
 	// 1-初始化得分
-	std::string buffer = "Score";
 	curScore = Label::create(
-		buffer,
+		"0",
 		"Verdana-Bold",50	
 		);
 	curScore->setPosition(visibleSize.width/2,visibleSize.height/2 +300);
@@ -42,5 +41,9 @@ bool TopMenu::init(){
 
 void TopMenu::updateGameTime(int gameTime) {
 	labelTime->setString("Time:" + cocos2d::String::createWithFormat("%d",gameTime)->_string);
+}
+
+void TopMenu::updateGameScore(int gameTime) {
+	curScore->setString(cocos2d::String::createWithFormat("%d",gameTime)->_string);
 }
 

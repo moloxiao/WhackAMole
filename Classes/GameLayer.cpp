@@ -9,6 +9,8 @@ bool GameLayer::init(){
 	gameTime = DEFAULT_GAME_TIME;
 	gamePause = false;
 	gameOver = false;
+	gameScore = 0;
+	gameScoreAdd = DEFAUL_SCORE_ADD;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Sprite* background = Sprite::create("mouse_bg.png");
@@ -92,6 +94,11 @@ bool GameLayer::init(){
 				auto scale2Action = ScaleTo::create(0.1f, 0.8f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
                 mole->runAction(Sequence::create(scale2Action, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
+
+				// TODO : 增加游戏分数
+				gameScore += gameScoreAdd;
+				gameScoreAdd +=DEFAUL_SCORE_ADD;
+				menu->updateGameScore(gameScore);
 			}
 		}
 		return true;
@@ -102,6 +109,8 @@ bool GameLayer::init(){
 	// 添加TopMenu
 	menu = TopMenu::getInstance();
 	this->addChild(menu, 10);
+	menu->updateGameScore(gameScore);
+	menu->updateGameTime(gameTime);
 
 	this->schedule(schedule_selector(GameLayer::updateGameTime), 1.0f, kRepeatForever, 0);
 

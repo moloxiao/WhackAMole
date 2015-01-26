@@ -11,6 +11,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(TopMenu);
 	void updateGameTime(int gameTime);
+	void updateGameScore(int gameScore);
 private:
 	static TopMenu* _instance;
 	TopMenu();

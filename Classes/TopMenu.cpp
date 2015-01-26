@@ -1,4 +1,5 @@
 ﻿#include "TopMenu.h"
+#include "GameLayer.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -30,12 +31,16 @@ bool TopMenu::init(){
 
 	// 1-初始化时间 labelTime
 	labelTime = Label::create(
-		"Time:30",
+		"Time:" + cocos2d::String::createWithFormat("%d",GameLayer::DEFAULT_GAME_TIME)->_string,
 		"Verdana-Bold",30	
 		);
 	labelTime->setPosition(80,visibleSize.height/2 +350);
 	this->addChild(labelTime);
 
 	return true;
+}
+
+void TopMenu::updateGameTime(int gameTime) {
+	labelTime->setString("Time:" + cocos2d::String::createWithFormat("%d",gameTime)->_string);
 }
 

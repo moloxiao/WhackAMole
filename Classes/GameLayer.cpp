@@ -6,6 +6,10 @@ bool GameLayer::init(){
 		return false;
 	}
 
+	gameTime = DEFAULT_GAME_TIME;
+	gamePause = false;
+	gameOver = false;
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Sprite* background = Sprite::create("mouse_bg.png");
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
@@ -99,6 +103,8 @@ bool GameLayer::init(){
 	menu = TopMenu::getInstance();
 	this->addChild(menu, 10);
 
+	this->schedule(schedule_selector(GameLayer::updateGameTime), 1.0f, kRepeatForever, 0);
+
 	return true;
 }
 
@@ -146,4 +152,17 @@ void GameLayer::unHit(Ref* pSender)
 
 void GameLayer::toResultScene() {
 	Director::getInstance()->replaceScene(TransitionFade::create(1,GameResultScene::create()));
+}
+
+void GameLayer::updateGameTime(float delta) {
+	if(!gameOver && !gamePause && gameTime > 0) {
+		gameTime--;
+	}
+	
+	if(!gameOver && gameTime <= 0) {
+		gameTime = 0;
+		gameOver = true;
+		toResultScene();
+	}
+	menu->updateGameTime(gameTime);
 }

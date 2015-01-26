@@ -10,6 +10,7 @@ public:
 	static TopMenu* getInstance();
 	virtual bool init();
 	CREATE_FUNC(TopMenu);
+	void updateGameTime(int gameTime);
 private:
 	static TopMenu* _instance;
 	TopMenu();

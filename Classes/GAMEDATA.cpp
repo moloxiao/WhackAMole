@@ -26,3 +26,19 @@ void GAMEDATA::setGameScore(int score){
 int GAMEDATA::getGameScore(){
 	return gameScore;
 }
+
+void GAMEDATA::setSoundState(bool state) {
+	UserDefault::getInstance()->setBoolForKey("soundState",state);
+}
+
+bool GAMEDATA::getSoundState() {
+	return UserDefault::getInstance()->getBoolForKey("soundState",true);
+}
+
+void GAMEDATA::setMusicState(bool state) {
+	UserDefault::getInstance()->setBoolForKey("musicState",state);
+}
+
+bool GAMEDATA::getMusicState() {
+	return UserDefault::getInstance()->getBoolForKey("musicState",true);
+}

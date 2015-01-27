@@ -117,7 +117,17 @@ set(GAME_SRC
   Classes/AppDelegate.cpp
   Classes/HelloWorldScene.cpp
   Classes/GameScene.cpp
-  Classes/StartScene.cpp
+  Classes/Chinese.cpp
+  Classes/FloatWord.cpp
+  Classes/GAMEDATA.cpp
+  Classes/GameLayer.cpp
+  Classes/GamePause.cpp
+  Classes/GameResultLayer.cpp
+  Classes/GameResultScene.cpp
+  Classes/GameState.cpp
+  Classes/MenuScene.cpp
+  Classes/MenuLayer.cpp
+  Classes/TopMenu.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -125,7 +135,17 @@ set(GAME_HEADERS
   Classes/AppDelegate.h
   Classes/HelloWorldScene.h
   Classes/GameScene.h
-  Classes/StartScene.h
+  Classes/Chinese.h
+  Classes/FloatWord.h
+  Classes/GAMEDATA.h
+  Classes/GameLayer.h
+  Classes/GamePause.h
+  Classes/GameResultLayer.h
+  Classes/GameResultScene.h
+  Classes/GameState.h
+  Classes/MenuScene.h
+  Classes/MenuLayer.h
+  Classes/TopMenu.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

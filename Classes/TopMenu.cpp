@@ -2,6 +2,7 @@
 #include "GameLayer.h"
 #include "GameState.h"
 #include "GamePause.h"
+#include "Audio.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -51,8 +52,12 @@ bool TopMenu::init(){
 }
 
 void TopMenu::pauseGame() {
-	GAMESTATE::getInstance()->setGamePause(true);
-	this->addChild(GamePause::create(), 10);
+	Audio::getInstance()->playSound("Music/click.ogg");
+	if(!GAMESTATE::getInstance()->getGamePause()) {
+		GAMESTATE::getInstance()->setGamePause(true);
+		this->addChild(GamePause::create(), 10);
+	}
+	
 }
 
 

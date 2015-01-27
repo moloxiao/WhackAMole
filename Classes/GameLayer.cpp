@@ -2,6 +2,7 @@
 #include "GameResultScene.h"
 #include "GAMEDATA.h"
 #include "GameState.h"
+#include "Audio.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
@@ -80,6 +81,7 @@ bool GameLayer::init(){
                 this->addChild(mallet, 1);
                 // 播放木槌动画
                 mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=]{
+					Audio::getInstance()->playSound("Music/normalhit.ogg");
 					// 地鼠被打中后播放粒子效果
                     auto aswoon = ParticleSystemQuad::create("aswoon.plist");
                     aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
@@ -93,9 +95,11 @@ bool GameLayer::init(){
                 mole->setTag(0);
 				// 地鼠顺序执行播放被打中动画和缩回地洞动作
 				mole->stopAllActions();
-				auto scale2Action = ScaleTo::create(0.1f, 1.0f);
-				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
-                mole->runAction(Sequence::create(scale2Action, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
+				//auto scale2Action = ScaleTo::create(0.1f, 1.0f);
+				
+				auto hitAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("hitAnimation"));
+				auto scale3Action = ScaleTo::create(0.1f, 0.0f);
+                mole->runAction(Sequence::create( hitAnimate, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
 
 				// TODO : 增加游戏分数
 				gameScore += gameScoreAdd;
@@ -121,6 +125,9 @@ bool GameLayer::init(){
 
 // 随机钻出地鼠
 void GameLayer::randomPopMoles(float delta){
+	if(GAMESTATE::getInstance()->getGamePause() || GAMESTATE::getInstance()->getGameOver()) {
+		return ;
+	}
 	for (auto mole : _mousesVector) {
         int temp = CCRANDOM_0_1()*10000;
         if ( temp % 9 == 0)
@@ -130,7 +137,7 @@ void GameLayer::randomPopMoles(float delta){
             {
 				auto scale1Action = ScaleTo::create(0.2f, 1.0f);
 				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
-				auto scale2Action = ScaleTo::create(2.1f, 1.0f);
+				auto scale2Action = ScaleTo::create(2.5f, 1.0f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
 				mole->runAction(Sequence::create(
 					scale1Action, 

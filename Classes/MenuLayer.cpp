@@ -35,8 +35,10 @@ bool MenuLayer::init(){
 	// Ä¾é³¶¯»­
     Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
     AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
-	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.5f, 3);
+	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
 	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
+	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
+	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
 	Audio::getInstance()->playBGM();
 	return true;

@@ -29,4 +29,5 @@ void Audio::playSound(char* soundName){
 void Audio::prepare(){
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Music/bg.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Music/click.ogg");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Music/normalhit.ogg");
 }

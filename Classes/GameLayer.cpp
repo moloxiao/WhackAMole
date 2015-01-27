@@ -3,6 +3,8 @@
 #include "GAMEDATA.h"
 #include "GameState.h"
 #include "Audio.h"
+#include "FloatWord.h"
+#include "Chinese.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
@@ -119,6 +121,17 @@ bool GameLayer::init(){
 	menu->updateGameTime(gameTime);
 
 	this->schedule(schedule_selector(GameLayer::updateGameTime), 1.0f, kRepeatForever, 0);
+
+	
+	GAMESTATE::getInstance()->setGamePause(true);
+
+	FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("stargame"), 
+		50,Point(-100.0f, visibleSize.height/2));
+	this->addChild(leftStarMsg1);
+	leftStarMsg1->floatInOut(0.4f, 1.0f,
+				[=](){
+					GAMESTATE::getInstance()->setGamePause(false);
+				});
 
 	return true;
 }

@@ -1,6 +1,7 @@
 #include "GameLayer.h"
 #include "GameResultScene.h"
 #include "GAMEDATA.h"
+#include "GameState.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
@@ -8,8 +9,8 @@ bool GameLayer::init(){
 	}
 
 	gameTime = DEFAULT_GAME_TIME;
-	gamePause = false;
-	gameOver = false;
+	GAMESTATE::getInstance()->reset();
+
 	gameScore = 0;
 	gameScoreAdd = DEFAUL_SCORE_ADD;
 
@@ -166,13 +167,13 @@ void GameLayer::toResultScene() {
 }
 
 void GameLayer::updateGameTime(float delta) {
-	if(!gameOver && !gamePause && gameTime > 0) {
+	if(!GAMESTATE::getInstance()->getGameOver() && !GAMESTATE::getInstance()->getGamePause() && gameTime > 0) {
 		gameTime--;
 	}
 	
-	if(!gameOver && gameTime <= 0) {
+	if(!GAMESTATE::getInstance()->getGameOver() && gameTime <= 0) {
 		gameTime = 0;
-		gameOver = true;
+		GAMESTATE::getInstance()->setGameOver(true);
 		toResultScene();
 	}
 	menu->updateGameTime(gameTime);

@@ -1,5 +1,7 @@
 ﻿#include "TopMenu.h"
 #include "GameLayer.h"
+#include "GameState.h"
+#include "GamePause.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -17,6 +19,7 @@ bool TopMenu::init(){
 	if(!Node::init()){
 		return false;
 	}
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
 	// 初始化界面
@@ -28,7 +31,7 @@ bool TopMenu::init(){
 	curScore->setPosition(visibleSize.width/2,visibleSize.height/2 +300);
 	this->addChild(curScore);
 
-	// 1-初始化时间 labelTime
+	// 2-初始化时间 labelTime
 	labelTime = Label::create(
 		"Time:" + cocos2d::String::createWithFormat("%d",GameLayer::DEFAULT_GAME_TIME)->_string,
 		"Verdana-Bold",30	
@@ -36,8 +39,22 @@ bool TopMenu::init(){
 	labelTime->setPosition(80,visibleSize.height/2 +350);
 	this->addChild(labelTime);
 
+	// 3-初始化暂停按键
+	auto btnPause = MenuItemImage::create(
+		"pause.png",
+        "pause.png",
+        CC_CALLBACK_0(TopMenu::pauseGame, this));
+    auto menu = Menu::create(btnPause, NULL);
+    menu->setPosition(visibleSize.width - 50, visibleSize.height/2 +350);
+    this->addChild(menu, 1);
 	return true;
 }
+
+void TopMenu::pauseGame() {
+	GAMESTATE::getInstance()->setGamePause(true);
+	this->addChild(GamePause::create(), 10);
+}
+
 
 void TopMenu::updateGameTime(int gameTime) {
 	labelTime->setString("Time:" + cocos2d::String::createWithFormat("%d",gameTime)->_string);

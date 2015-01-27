@@ -7,7 +7,7 @@ bool GameResultLayer::init(){
 	}
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Sprite* background = Sprite::create("mouse_bg.png");
+	Sprite* background = Sprite::create("pr_bg.png");
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
 	this->addChild(background,-1);
 

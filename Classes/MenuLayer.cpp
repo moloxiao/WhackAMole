@@ -40,7 +40,7 @@ bool MenuLayer::init(){
 	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
 	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
-	Audio::getInstance()->playBGM();
+	Audio::getInstance()->playBGM("Music/bg.mp3");
 	return true;
 }
 

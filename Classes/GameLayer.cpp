@@ -10,6 +10,8 @@ bool GameLayer::init(){
 	if(!Layer::init()){
 		return false;
 	}
+	
+	Audio::getInstance()->playBGM("Music/fightbg.mp3");
 
 	gameTime = DEFAULT_GAME_TIME;
 	GAMESTATE::getInstance()->reset();

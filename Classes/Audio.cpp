@@ -10,9 +10,9 @@ Audio* Audio::getInstance(){
 	return m_instance;
 }
 
-void Audio::playBGM(){
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Music/bg.mp3",true);
-	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.4f);
+void Audio::playBGM(char* soundName){
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(soundName,true);
+	
 	if(GAMEDATA::getInstance()->getMusicState()){
 		  CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic(); 
 	}else{
@@ -28,6 +28,9 @@ void Audio::playSound(char* soundName){
 
 void Audio::prepare(){
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Music/bg.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Music/fightbg.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Music/click.ogg");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Music/normalhit.ogg");
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.4f);
 }

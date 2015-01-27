@@ -4,7 +4,7 @@
 class Audio{
 public:
 	static Audio* getInstance();
-	void playBGM();
+	void playBGM(char* soundName);
 	void playSound(char* soundName);
 	void prepare();
 private:

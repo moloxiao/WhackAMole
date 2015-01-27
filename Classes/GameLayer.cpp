@@ -127,8 +127,8 @@ bool GameLayer::init(){
 
 	FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("stargame"), 
 		50,Point(-100.0f, visibleSize.height/2));
-	this->addChild(leftStarMsg1);
-	leftStarMsg1->floatInOut(0.4f, 1.0f,
+	this->addChild(leftStarMsg1, 100);
+	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
 				[=](){
 					GAMESTATE::getInstance()->setGamePause(false);
 				});
@@ -196,7 +196,16 @@ void GameLayer::updateGameTime(float delta) {
 	if(!GAMESTATE::getInstance()->getGameOver() && gameTime <= 0) {
 		gameTime = 0;
 		GAMESTATE::getInstance()->setGameOver(true);
-		toResultScene();
+
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("gameover"), 
+		50,Point(-100.0f, visibleSize.height/2));
+		this->addChild(leftStarMsg1, 100);
+		leftStarMsg1->floatInOut(0.4f, 0.0f, 1.0f,
+				[=](){
+					toResultScene();
+				});
+		
 	}
 	menu->updateGameTime(gameTime);
 }

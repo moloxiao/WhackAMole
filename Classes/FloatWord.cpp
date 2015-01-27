@@ -44,14 +44,14 @@ void FloatWord::floatOut(const float delay,std::function<void()> callback){
 	_label->runAction(action);
 }
 
-void FloatWord::floatInOut(const float speed,const float delayTime,std::function<void()> callback){
+void FloatWord::floatInOut(const float speed,const float delayTimeStar, const float delayTimeMid,std::function<void()> callback){
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	MoveTo* moveIn = MoveTo::create(speed,Point(visibleSize.width/2,_begin.y));
 	MoveTo* moveOut = MoveTo::create(speed,Point(visibleSize.width + 100,_begin.y));
 	CallFunc* removeC = CallFunc::create([this](){
 		this->removeFromParentAndCleanup(true);
 	});
-	Sequence* action = Sequence::create(DelayTime::create(1.0f), moveIn,DelayTime::create(1.0f),moveOut,removeC,CallFunc::create(callback),NULL);
+	Sequence* action = Sequence::create(DelayTime::create(delayTimeStar), moveIn,DelayTime::create(delayTimeMid),moveOut,removeC,CallFunc::create(callback),NULL);
 	_label->runAction(action);
 }
 

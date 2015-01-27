@@ -24,7 +24,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(90, 140 + i*160);
+		Mouse3X1->setPosition(90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -36,7 +36,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(visibleSize.width/2, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(visibleSize.width/2, 140 + i*160);
+		Mouse3X1->setPosition(visibleSize.width/2, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -48,7 +48,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(visibleSize.width-90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(visibleSize.width-90, 140 + i*160);
+		Mouse3X1->setPosition(visibleSize.width-90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -76,7 +76,7 @@ bool GameLayer::init(){
 				// 获得木槌动画
                 auto malletAnimation = Animate::create(AnimationCache::getInstance()->getAnimation("malletAnimation"));
 				mallet->setScale(0.6f);
-                mallet->setPosition(mole->getPosition().x+40, mole->getPosition().y+90);
+                mallet->setPosition(mole->getPosition().x+30, mole->getPosition().y+70);
                 this->addChild(mallet, 1);
                 // 播放木槌动画
                 mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=]{
@@ -93,7 +93,7 @@ bool GameLayer::init(){
                 mole->setTag(0);
 				// 地鼠顺序执行播放被打中动画和缩回地洞动作
 				mole->stopAllActions();
-				auto scale2Action = ScaleTo::create(0.1f, 0.8f);
+				auto scale2Action = ScaleTo::create(0.1f, 1.0f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
                 mole->runAction(Sequence::create(scale2Action, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
 
@@ -128,9 +128,9 @@ void GameLayer::randomPopMoles(float delta){
             // getNumberOfRunningActions等于0，说明该地鼠并没有执行动作，也就是还没有钻出来，如果不等于0，说明地鼠已经钻出来了，则不再让地鼠钻出来。
 			if (mole->getNumberOfRunningActions() == 0 && mole->getTag() == 0)
             {
-				auto scale1Action = ScaleTo::create(0.2f, 0.8f);
+				auto scale1Action = ScaleTo::create(0.2f, 1.0f);
 				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
-				auto scale2Action = ScaleTo::create(2.1f, 0.8f);
+				auto scale2Action = ScaleTo::create(2.1f, 1.0f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
 				mole->runAction(Sequence::create(
 					scale1Action, 

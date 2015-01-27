@@ -129,11 +129,13 @@ void GameLayer::randomPopMoles(float delta){
 			if (mole->getNumberOfRunningActions() == 0 && mole->getTag() == 0)
             {
 				auto scale1Action = ScaleTo::create(0.2f, 0.8f);
-				auto scale2Action = ScaleTo::create(3.6f, 0.8f);
+				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
+				auto scale2Action = ScaleTo::create(2.1f, 0.8f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
 				mole->runAction(Sequence::create(
 					scale1Action, 
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::setHit, this)),
+					laughAnimate,
 					scale2Action,
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)),
 					scale3Action, 

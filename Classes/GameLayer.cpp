@@ -1,15 +1,21 @@
 #include "GameLayer.h"
 #include "GameResultScene.h"
 #include "GAMEDATA.h"
+#include "GameState.h"
+#include "Audio.h"
+#include "FloatWord.h"
+#include "Chinese.h"
 
 bool GameLayer::init(){
 	if(!Layer::init()){
 		return false;
 	}
+	
+	Audio::getInstance()->playBGM("Music/fightbg.mp3");
 
 	gameTime = DEFAULT_GAME_TIME;
-	gamePause = false;
-	gameOver = false;
+	GAMESTATE::getInstance()->reset();
+
 	gameScore = 0;
 	gameScoreAdd = DEFAUL_SCORE_ADD;
 
@@ -23,7 +29,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(90, 140 + i*160);
+		Mouse3X1->setPosition(90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -35,7 +41,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(visibleSize.width/2, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(visibleSize.width/2, 140 + i*160);
+		Mouse3X1->setPosition(visibleSize.width/2, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -47,7 +53,7 @@ bool GameLayer::init(){
 		Mole3X1->setPosition(visibleSize.width-90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
 		auto Mouse3X1 = Sprite::create("mole_1.png");
-		Mouse3X1->setPosition(visibleSize.width-90, 140 + i*160);
+		Mouse3X1->setPosition(visibleSize.width-90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
 		this->addChild(Mouse3X1, 1);
@@ -75,10 +81,11 @@ bool GameLayer::init(){
 				// 获得木槌动画
                 auto malletAnimation = Animate::create(AnimationCache::getInstance()->getAnimation("malletAnimation"));
 				mallet->setScale(0.6f);
-                mallet->setPosition(mole->getPosition().x+40, mole->getPosition().y+90);
+                mallet->setPosition(mole->getPosition().x+30, mole->getPosition().y+70);
                 this->addChild(mallet, 1);
                 // 播放木槌动画
                 mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=]{
+					Audio::getInstance()->playSound("Music/normalhit.ogg");
 					// 地鼠被打中后播放粒子效果
                     auto aswoon = ParticleSystemQuad::create("aswoon.plist");
                     aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
@@ -92,9 +99,11 @@ bool GameLayer::init(){
                 mole->setTag(0);
 				// 地鼠顺序执行播放被打中动画和缩回地洞动作
 				mole->stopAllActions();
-				auto scale2Action = ScaleTo::create(0.1f, 0.8f);
-				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
-                mole->runAction(Sequence::create(scale2Action, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
+				//auto scale2Action = ScaleTo::create(0.1f, 1.0f);
+				
+				auto hitAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("hitAnimation"));
+				auto scale3Action = ScaleTo::create(0.1f, 0.0f);
+                mole->runAction(Sequence::create( hitAnimate, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
 
 				// TODO : 增加游戏分数
 				gameScore += gameScoreAdd;
@@ -115,11 +124,25 @@ bool GameLayer::init(){
 
 	this->schedule(schedule_selector(GameLayer::updateGameTime), 1.0f, kRepeatForever, 0);
 
+	
+	GAMESTATE::getInstance()->setGamePause(true);
+
+	FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("stargame"), 
+		50,Point(-100.0f, visibleSize.height/2));
+	this->addChild(leftStarMsg1, 100);
+	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
+				[=](){
+					GAMESTATE::getInstance()->setGamePause(false);
+				});
+
 	return true;
 }
 
 // 随机钻出地鼠
 void GameLayer::randomPopMoles(float delta){
+	if(GAMESTATE::getInstance()->getGamePause() || GAMESTATE::getInstance()->getGameOver()) {
+		return ;
+	}
 	for (auto mole : _mousesVector) {
         int temp = CCRANDOM_0_1()*10000;
         if ( temp % 9 == 0)
@@ -127,12 +150,14 @@ void GameLayer::randomPopMoles(float delta){
             // getNumberOfRunningActions等于0，说明该地鼠并没有执行动作，也就是还没有钻出来，如果不等于0，说明地鼠已经钻出来了，则不再让地鼠钻出来。
 			if (mole->getNumberOfRunningActions() == 0 && mole->getTag() == 0)
             {
-				auto scale1Action = ScaleTo::create(0.2f, 0.8f);
-				auto scale2Action = ScaleTo::create(3.6f, 0.8f);
+				auto scale1Action = ScaleTo::create(0.2f, 1.0f);
+				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
+				auto scale2Action = ScaleTo::create(2.5f, 1.0f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
 				mole->runAction(Sequence::create(
 					scale1Action, 
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::setHit, this)),
+					laughAnimate,
 					scale2Action,
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)),
 					scale3Action, 
@@ -166,14 +191,23 @@ void GameLayer::toResultScene() {
 }
 
 void GameLayer::updateGameTime(float delta) {
-	if(!gameOver && !gamePause && gameTime > 0) {
+	if(!GAMESTATE::getInstance()->getGameOver() && !GAMESTATE::getInstance()->getGamePause() && gameTime > 0) {
 		gameTime--;
 	}
 	
-	if(!gameOver && gameTime <= 0) {
+	if(!GAMESTATE::getInstance()->getGameOver() && gameTime <= 0) {
 		gameTime = 0;
-		gameOver = true;
-		toResultScene();
+		GAMESTATE::getInstance()->setGameOver(true);
+
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("gameover"), 
+		50,Point(-100.0f, visibleSize.height/2));
+		this->addChild(leftStarMsg1, 100);
+		leftStarMsg1->floatInOut(0.4f, 0.0f, 1.0f,
+				[=](){
+					toResultScene();
+				});
+		
 	}
 	menu->updateGameTime(gameTime);
 }

@@ -6,6 +6,11 @@ public:
 	static GAMEDATA* getInstance();
 	void setGameScore(int score);
 	int getGameScore();
+	
+	void setSoundState(bool state);
+	bool getSoundState();
+	void setMusicState(bool state);
+	bool getMusicState();
 private:
 	GAMEDATA();
 	void init();

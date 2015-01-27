@@ -1,13 +1,15 @@
 #include "MenuLayer.h"
 #include "GameScene.h"
+#include "Audio.h"
 
 bool MenuLayer::init(){
 	if(!Layer::init()){
 		return false;
 	}
+	Audio::getInstance()->prepare();
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Sprite* background = Sprite::create("mouse_bg.png");
+	Sprite* background = Sprite::create("pr_bg.png");
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
 	this->addChild(background,-1);
 
@@ -33,11 +35,17 @@ bool MenuLayer::init(){
 	// Ä¾é³¶¯»­
     Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
     AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
+	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
+	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
+	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
+	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
+	Audio::getInstance()->playBGM("Music/bg.mp3");
 	return true;
 }
 
 void MenuLayer::startGame(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
 }
 

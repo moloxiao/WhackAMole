@@ -50,3 +50,12 @@ bool GAMEDATA::isPaySuccess(){
 void GAMEDATA::setPaySuccess(bool paySuccess){
 	UserDefault::getInstance()->setBoolForKey("paySuccess",paySuccess);
 }
+
+int GAMEDATA::getTotalScore(){
+	return UserDefault::getInstance()->getIntegerForKey("totalScore",0);
+}
+
+void GAMEDATA::setTotalScore(int totalScore){
+	UserDefault::getInstance()->setIntegerForKey("totalScore",totalScore);
+}
+

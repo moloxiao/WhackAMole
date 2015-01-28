@@ -23,7 +23,7 @@ bool GameResultLayer::init(){
 		"game_result_btn_conti.png","game_result_btn_conti.png",CC_CALLBACK_0(GameResultLayer::contiGame,this)
 		);
 	auto contiMenu = Menu::create(contiBtn, NULL);
-	contiMenu->setPosition(60,71);
+	contiMenu->setPosition(560,71);
 	this->addChild(contiMenu);
 
 	auto backBtn = MenuItemImage::create(

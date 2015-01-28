@@ -2,6 +2,7 @@
 #define _MENULAYER_H_
 
 #include "cocos2d.h"
+#include "SignIn.h"
 
 using namespace cocos2d;
 
@@ -10,13 +11,32 @@ public:
 	virtual bool init();
 	CREATE_FUNC(MenuLayer);
 	void startGame();
+	void autoStartGame(float dt);
+	bool showAbout(Touch* touch,Event* event);
+	void getSoudState(CCObject* pSender);
+	void getMusicState(CCObject* pSender);
+	void quit();
+	void cancel();
+	void showQuit();
+	void setSignIn(bool signIn);
 
 	/** 
-     »ñµÃ¶¯»­º¯Êý 
-     µÚÒ»¸ö²ÎÊý£º¶¯»­Ãû³Æ
-     µÚ¶þ¸ö²ÎÊý£º¼ä¸ôÊÂ¼þ
-     µÚÈý¸ö²ÎÊý£º¶¯»­Í¼Æ¬ÊýÁ¿
+     ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
      */
     Animation* getAnimationByName(std::string animName,float delay,int animNum);
+
+private:
+	Menu* menuBgMusic;
+	Menu* menuSoundEffect;
+    Sprite* quitBg;
+	Sprite* quitDesc;
+	Menu* confirmMenu;
+	Menu* cancelMenu;
+	SignIn* signIn;
+	bool hasShowQuitPay;
+	Node* aboutLayer;
 };
 #endif

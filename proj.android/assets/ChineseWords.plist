@@ -13,6 +13,57 @@
   <key>gameover</key>
   <string>灭鼠结束</string>
 
+  <key>about</key>
+  <string>关于</string>
+
+  <key>signin</key>
+  <string>签到奖励</string>
+
+  <key>day</key>
+  <string>日</string>
+
+  <key>revive</key>
+  <string>复活</string>
+
+  <key>abouttitle11</key>
+  <string>您已经消灭了</string>
+
+  <key>abouttitle12</key>
+  <string>只老鼠</string>
+
+  <key>abouttitle21</key>
+  <string>为地球节约了</string>
+
+  <key>abouttitle22</key>
+  <string>公斤粮食</string>
+
+  <key>aboutdesc1</key>
+  <string>一只老鼠</string>
+
+  <key>aboutdesc2</key>
+  <string>一年可以吃掉9公斤粮食</string>
+
+  <key>aboutdesc3</key>
+  <string>一公一母</string>
+
+  <key>aboutdesc4</key>
+  <string>一年可以生育350只小老鼠</string>
+
+  <key>aboutdesc5</key>
+  <string>每消灭一只老鼠</string>
+
+  <key>aboutdesc6</key>
+  <string>就可以为地球</string>
+
+  <key>aboutdesc7</key>
+  <string>节约1000公斤左右的粮食</string>
+
+  <key>aboutdesc8</key>
+  <string>立刻开始消灭老鼠</string>
+
+  <key>aboutdesc9</key>
+  <string>为地球贡献力量</string>
+
 
 </dict>
 

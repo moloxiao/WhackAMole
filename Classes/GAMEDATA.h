@@ -10,6 +10,9 @@ public:
 	bool isPaySuccess();
 	void setPaySuccess(bool paySuccess);
 
+	int getTotalScore();
+	void setTotalScore(int totalScore);
+
 	void setSoundState(bool state);
 	bool getSoundState();
 	void setMusicState(bool state);

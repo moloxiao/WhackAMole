@@ -42,3 +42,11 @@ void GAMEDATA::setMusicState(bool state) {
 bool GAMEDATA::getMusicState() {
 	return UserDefault::getInstance()->getBoolForKey("musicState",true);
 }
+
+bool GAMEDATA::isPaySuccess(){
+	return UserDefault::getInstance()->getBoolForKey("paySuccess",false);
+}
+
+void GAMEDATA::setPaySuccess(bool paySuccess){
+	UserDefault::getInstance()->setBoolForKey("paySuccess",paySuccess);
+}

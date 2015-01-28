@@ -7,6 +7,9 @@ public:
 	void setGameScore(int score);
 	int getGameScore();
 	
+	bool isPaySuccess();
+	void setPaySuccess(bool paySuccess);
+
 	void setSoundState(bool state);
 	bool getSoundState();
 	void setMusicState(bool state);

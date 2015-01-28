@@ -1,6 +1,7 @@
 #include "MenuLayer.h"
 #include "GameScene.h"
 #include "Audio.h"
+#include "CallAndroidMethod.h"
 
 bool MenuLayer::init(){
 	if(!Layer::init()){
@@ -13,7 +14,7 @@ bool MenuLayer::init(){
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
 	this->addChild(background,-1);
 
-	// Æ®Ñ©Á£×ÓÐ§¹û
+	// Æ®Ñ©ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
 	//ParticleSnow* effect = ParticleSnow::create();
 	//effect->setTotalParticles(100);
 	//addChild(effect);
@@ -29,10 +30,10 @@ bool MenuLayer::init(){
     menu->setPosition(visibleSize.width/2,100);
     this->addChild(menu, 1);
 
-	// ½«¾«Áé±íµ¥Ìí¼Óµ½»º´æ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
 
-	// Ä¾é³¶¯»­
+	// Ä¾é³¶ï¿½ï¿½ï¿½
     Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
     AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
 	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
@@ -50,24 +51,24 @@ void MenuLayer::startGame(){
 }
 
 /**
- * »ñµÃ¶¯»­¶¯×÷º¯Êý
- * animName£º¶¯»­Ö¡µÄÃû×Ö
- * delay£º¶¯»­Ö¡ÓëÖ¡Ö®¼äµÄ¼ä¸ôÊ±¼ä
- * animNum£º¶¯»­Ö¡µÄÊýÁ¿
+ * ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * animNameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * delayï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½Ö¡Ö®ï¿½ï¿½Ä¼ï¿½ï¿½Ê±ï¿½ï¿½
+ * animNumï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 Animation* MenuLayer::getAnimationByName(std::string animName,float delay,int animNum){
     Animation* animation = Animation::create();
-    // Ñ­»·´Ó¾«ÁéÖ¡»º´æÖÐ»ñÈ¡ÓëÍ¼Æ¬Ãû³ÆÏà¶ÔÓ¦µÄ¾«ÁéÖ¡×é³É¶¯»­
+    // Ñ­ï¿½ï¿½ï¿½Ó¾ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ä¾ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½É¶ï¿½ï¿½ï¿½
 	for(unsigned int i = 1;i<=animNum;i++){
-        // »ñÈ¡¶¯»­Í¼Æ¬Ãû³Æ£¬ÀýÈçplane0.png
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½plane0.png
         std::string frameName = animName;
         frameName.append(StringUtils::format("%d",i)).append(".png");
-		// ½«µ¥ÕÅÍ¼Æ¬Ìí¼ÓÎª¾«ÁéÖ¡£¨¼´¶¯»­Ö¡£©
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½
 		animation->addSpriteFrameWithFile(frameName.c_str());
     }
-    // ÉèÖÃ¶¯»­²¥·ÅµÄÊôÐÔ
+    // ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½
 	animation->setDelayPerUnit(delay);
-	// ÈÃ¾«Áé¶ÔÏóÔÚ¶¯»­Ö´ÐÐÍêºó»Ö¸´µ½×î³õ×´Ì¬
+	// ï¿½Ã¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 	animation->setRestoreOriginalFrame(true);
     return animation;
 }

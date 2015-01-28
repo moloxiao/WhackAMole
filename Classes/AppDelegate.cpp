@@ -37,9 +37,18 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 	glview->setFrameSize(480, 800);
 #endif
-    auto designSize = Size(480, 800);
-   
-    glview->setDesignResolutionSize(designSize.width, designSize.height, ResolutionPolicy::FIXED_WIDTH);
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	if(visibleSize.height/visibleSize.width > 800/480){
+		glview->setDesignResolutionSize(800, 480, ResolutionPolicy::EXACT_FIT);
+	}
+	else{
+		glview->setDesignResolutionSize(800, 480, ResolutionPolicy::NO_BORDER);
+	}
+	// turn on display FPS
+	director->setDisplayStats(false);
+
+	// set FPS. the default value is 1.0/60 if you don't call this
+	director->setAnimationInterval(1.0 / 60);
 
 	auto scene = MenuScene::create();
     director->runWithScene(scene);

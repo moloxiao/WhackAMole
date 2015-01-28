@@ -42,6 +42,9 @@ proj.android/local.properties
 proj.android/gen/
 proj.android/bin/
 proj.android/obj/
+WhackAMolePay/gen/
+WhackAMolePay/bin/
+WhackAMolePay/local.properties
 
 
 # Ignore files build by xcode

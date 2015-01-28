@@ -128,6 +128,11 @@ set(GAME_SRC
   Classes/MenuScene.cpp
   Classes/MenuLayer.cpp
   Classes/TopMenu.cpp
+  Classes/Audio.cpp
+  Classes/PayHandler.cpp
+  Classes/SignIn.cpp
+  Classes/About.cpp
+  Classes/CallAndroidMethod.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -146,6 +151,11 @@ set(GAME_HEADERS
   Classes/MenuScene.h
   Classes/MenuLayer.h
   Classes/TopMenu.h
+  Classes/Audio.h
+  Classes/PayHandler.h
+  Classes/SignIn.h
+  Classes/About.h
+  Classes/CallAndroidMethod.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

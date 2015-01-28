@@ -28,5 +28,36 @@ package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import android.os.Bundle;
+import android.util.Log;
+
+import com.tallbigup.android.cloud.TbuCloud;
+import com.tallbigup.android.gds.nativenotify.NotifyManager;
+
 public class AppActivity extends Cocos2dxActivity {
+	
+	private GameInfoUtil gameInfo;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		gameInfo = GameInfoUtil.getInstance();
+		
+		NetWorkService.init(this);
+		PayService.init(this);
+		NativeNotifyService.init(this);
+		SignInService.init(this);
+		if(TbuCloud.markUserType(getApplicationContext()) == 0){
+			   TbuCloud.markUserPay(getApplicationContext(), 0);
+		}
+		TbuCloud.markUserLogin(getApplicationContext(), System.currentTimeMillis());		
+		
+		TbuCloud.markAppOpened(AppActivity.this);
+		if(NotifyManager.isStartByNotifaction(getIntent())){
+			Log.i("MCH","start by click notify ...");
+			//TODO 根据需求添加
+		}
+		NotifyManager.cleanNofitifcation(this, getIntent());
+	}
 }

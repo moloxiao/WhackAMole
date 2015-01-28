@@ -10,5 +10,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(GameResultLayer);
 
+	void contiGame();
+	void back();
 };
 #endif

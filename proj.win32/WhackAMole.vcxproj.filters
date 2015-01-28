@@ -16,6 +16,7 @@
     <ClCompile Include="..\Classes\MenuScene.cpp" />
     <ClCompile Include="..\Classes\TopMenu.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\Audio.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\Classes\MenuScene.h" />
     <ClInclude Include="..\Classes\TopMenu.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="..\Classes\AppDelegate.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />

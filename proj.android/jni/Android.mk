@@ -11,6 +11,7 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
+				   hellocpp/PayProxy.cpp\
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp\
 				  ../../Classes/GameScene.cpp \
@@ -24,7 +25,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				  ../../Classes/GameState.cpp \
 				  ../../Classes/MenuScene.cpp \
 				  ../../Classes/MenuLayer.cpp \
-				  ../../Classes/TopMenu.cpp
+				  ../../Classes/TopMenu.cpp\
+				  ../../Classes/Audio.cpp\
+				  ../../Classes/PayHandler.cpp\
+				  ../../Classes/SignIn.cpp\
+				  ../../Classes/About.cpp\
+				  ../../Classes/CallAndroidMethod.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

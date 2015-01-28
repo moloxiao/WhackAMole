@@ -20,7 +20,7 @@ bool About::init(){
 	}
 
 	auto bg = Sprite::create("pr_bg.png");
-	bg->setPosition(400,240);
+	bg->setPosition(240,400);
 	this->addChild(bg);
 
 	auto smallTitle11 = Label::create(ChineseWord("abouttitle11"),"Arial",36);

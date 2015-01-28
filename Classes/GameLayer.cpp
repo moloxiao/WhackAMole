@@ -62,42 +62,42 @@ bool GameLayer::init(){
 
 	 this->schedule(schedule_selector(GameLayer::randomPopMoles), 1.0f);
 
-	 // ´´½¨µ¥µã´¥Ãþ¼àÌýÆ÷
+	 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [=](Touch *touch, Event *unused_event){
-		// °Ñtouch×ø±ê×ª»»³ÉNode×ø±ê
+		// ï¿½ï¿½touchï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Nodeï¿½ï¿½ï¿½ï¿½
 		Point touchLocation = this->convertTouchToNodeSpace(touch);
 
-		 // ±éÀúµØÊó¼¯ºÏ
+		 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó¼¯ºï¿½
         for (auto* mole : _mousesVector) {
-			// Èç¹ûµ±Ç°ÕâÖ»µØÊóµÄtag±ê¼ÇÎª0£¬±íÊ¾²»¿ÉÒÔÇÃ´ò£¬ÄÇÃ´¾ÍÖ±½Ó¼ì²éÏÂÒ»¸öµØÊó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½tagï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Ö±ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (mole->getTag() == 0 ) {
 				continue;
 			}
-			// Èç¹ûtouch´¥Åö·¶Î§ÊÇµØÊóÊ±
+			// ï¿½ï¿½ï¿½touchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§ï¿½Çµï¿½ï¿½ï¿½Ê±
             if (mole->getBoundingBox().containsPoint(touchLocation)) {
-				// ´´½¨Ä¾é³£¬½«Ä¾é³ÏÔÊ¾ÔÚÖÐ¼äµÄµØÊóÍ·ÉÏ
-                auto mallet = Sprite::createWithSpriteFrameName("mallet1.png");
-				// »ñµÃÄ¾é³¶¯»­
+				// ï¿½ï¿½ï¿½ï¿½Ä¾é³£ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ð¼ï¿½Äµï¿½ï¿½ï¿½Í·ï¿½ï¿½
+                auto mallet = Sprite::create("mallet1.png");
+				// ï¿½ï¿½ï¿½Ä¾é³¶ï¿½ï¿½ï¿½
                 auto malletAnimation = Animate::create(AnimationCache::getInstance()->getAnimation("malletAnimation"));
 				mallet->setScale(0.6f);
                 mallet->setPosition(mole->getPosition().x+30, mole->getPosition().y+70);
                 this->addChild(mallet, 1);
-                // ²¥·ÅÄ¾é³¶¯»­
+                // ï¿½ï¿½ï¿½ï¿½Ä¾é³¶ï¿½ï¿½ï¿½
                 mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=]{
 					Audio::getInstance()->playSound("Music/normalhit.ogg");
-					// µØÊó±»´òÖÐºó²¥·ÅÁ£×ÓÐ§¹û
+					// ï¿½ï¿½ï¿½ó±»´ï¿½ï¿½Ðºó²¥·ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
                     auto aswoon = ParticleSystemQuad::create("aswoon.plist");
                     aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
                     this->addChild(aswoon);
-                    // É¾³ýÄ¾é³
+                    // É¾ï¿½ï¿½Ä¾ï¿½
                     this->removeChild(mallet);
                 }), NULL));
 
 				
-				// µØÊó±»´òÖÐºó£¬ÐÞ¸Ätag±ê¼ÇÎª0£¬±íÊ¾µØÊóÒÑ¾­±»´òÖÐ£¬²»ÄÜÖØ¸´ÇÃ´ò
+				// ï¿½ï¿½ï¿½ó±»´ï¿½ï¿½Ðºï¿½ï¿½Þ¸ï¿½tagï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½Ã´ï¿½
                 mole->setTag(0);
-				// µØÊóË³ÐòÖ´ÐÐ²¥·Å±»´òÖÐ¶¯»­ºÍËõ»ØµØ¶´¶¯×÷
+				// ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½Ö´ï¿½Ð²ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµØ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 				mole->stopAllActions();
 				//auto scale2Action = ScaleTo::create(0.1f, 1.0f);
 				
@@ -105,7 +105,7 @@ bool GameLayer::init(){
 				auto scale3Action = ScaleTo::create(0.1f, 0.0f);
                 mole->runAction(Sequence::create( hitAnimate, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
 
-				// TODO : Ôö¼ÓÓÎÏ··ÖÊý
+				// TODO : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
 				gameScore += gameScoreAdd;
 				gameScoreAdd +=DEFAUL_SCORE_ADD;
 				menu->updateGameScore(gameScore);
@@ -113,10 +113,10 @@ bool GameLayer::init(){
 		}
 		return true;
 	};
-	// Ìí¼Ó¼àÌýÆ÷
+	// ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 	
-	// Ìí¼ÓTopMenu
+	// ï¿½ï¿½ï¿½TopMenu
 	menu = TopMenu::getInstance();
 	this->addChild(menu, 10);
 	menu->updateGameScore(gameScore);
@@ -138,7 +138,7 @@ bool GameLayer::init(){
 	return true;
 }
 
-// Ëæ»ú×ê³öµØÊó
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void GameLayer::randomPopMoles(float delta){
 	if(GAMESTATE::getInstance()->getGamePause() || GAMESTATE::getInstance()->getGameOver()) {
 		return ;
@@ -147,7 +147,7 @@ void GameLayer::randomPopMoles(float delta){
         int temp = CCRANDOM_0_1()*10000;
         if ( temp % 9 == 0)
         {
-            // getNumberOfRunningActionsµÈÓÚ0£¬ËµÃ÷¸ÃµØÊó²¢Ã»ÓÐÖ´ÐÐ¶¯×÷£¬Ò²¾ÍÊÇ»¹Ã»ÓÐ×ê³öÀ´£¬Èç¹û²»µÈÓÚ0£¬ËµÃ÷µØÊóÒÑ¾­×ê³öÀ´ÁË£¬Ôò²»ÔÙÈÃµØÊó×ê³öÀ´¡£
+            // getNumberOfRunningActionsï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ö´ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ç»ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (mole->getNumberOfRunningActions() == 0 && mole->getTag() == 0)
             {
 				auto scale1Action = ScaleTo::create(0.2f, 1.0f);
@@ -169,16 +169,16 @@ void GameLayer::randomPopMoles(float delta){
 	}
 }
 
-// ÔÚµØÊóÐ¦Ê±£¬ÉèÖÃ¿ÉÒÔÇÃ´òµØÊó
+// ï¿½Úµï¿½ï¿½ï¿½Ð¦Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½
 void GameLayer::setHit(Ref* pSender)
 {
     Sprite* mole = (Sprite*)pSender;
     mole->setTag(1);
-    // TODO : ²¥·ÅµØÊó¡°Ð¦¡±µÄÒôÐ§
+    // TODO : ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ð¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
     //SimpleAudioEngine::getInstance()->playEffect("laugh.caf");
 }
 
-// ÔÚµØÊóÐ¦ÍêÖ®ºó£¬ÉèÖÃ²»¿ÉÒÔÇÃ´òµØÊó
+// ï¿½Úµï¿½ï¿½ï¿½Ð¦ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½
 void GameLayer::unHit(Ref* pSender)
 {
     Sprite* mole = (Sprite*)pSender;
@@ -187,7 +187,7 @@ void GameLayer::unHit(Ref* pSender)
 
 void GameLayer::toResultScene() {
 	GAMEDATA::getInstance()->setGameScore(gameScore);
-	Director::getInstance()->replaceScene(TransitionFade::create(1,GameResultScene::create()));
+	Director::getInstance()->replaceScene(TransitionSlideInR::create(1,GameResultScene::create()));
 }
 
 void GameLayer::updateGameTime(float delta) {

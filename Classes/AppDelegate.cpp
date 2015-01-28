@@ -39,13 +39,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	if(visibleSize.height/visibleSize.width > 800/480){
-		glview->setDesignResolutionSize(800, 480, ResolutionPolicy::EXACT_FIT);
+		glview->setDesignResolutionSize(480, 800, ResolutionPolicy::EXACT_FIT);
 	}
 	else{
-		glview->setDesignResolutionSize(800, 480, ResolutionPolicy::NO_BORDER);
+		glview->setDesignResolutionSize(480, 800, ResolutionPolicy::NO_BORDER);
 	}
 	// turn on display FPS
-	director->setDisplayStats(false);
+	director->setDisplayStats(true);
 
 	// set FPS. the default value is 1.0/60 if you don't call this
 	director->setAnimationInterval(1.0 / 60);

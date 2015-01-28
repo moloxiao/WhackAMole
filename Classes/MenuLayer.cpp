@@ -32,7 +32,7 @@ bool MenuLayer::init(){
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(BtnStart, NULL);
-    menu->setPosition(visibleSize.width/2,100);
+    menu->setPosition(visibleSize.width/2,200);
     this->addChild(menu, 1);
 
 	// ���������ӵ�����
@@ -47,7 +47,7 @@ bool MenuLayer::init(){
 	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
 	auto about = Label::create(ChineseWord("about"),"Arial",24);
-	about->setPosition(680,40);
+	about->setPosition(450,40);
 	about->setAnchorPoint(Point(1,0.5));
 	this->addChild(about);
 
@@ -67,7 +67,7 @@ bool MenuLayer::init(){
 			musicTog->setSelectedIndex(1);
 		}
 	auto musicMenu = Menu::create(musicTog,NULL);
-	musicMenu->setPosition(650,430);
+	musicMenu->setPosition(349,760);
 	MenuItemImage* soundEffectOn = MenuItemImage::create("sound_effect_on.png","sound_effect_on.png");
 	MenuItemImage* soundEffectOff = MenuItemImage::create("sound_effect_close.png","sound_effect_close.png");
 	MenuItemToggle* soundEffectTog = MenuItemToggle::createWithTarget(this,menu_selector(MenuLayer::getSoudState),soundEffectOn,soundEffectOff,NULL);
@@ -80,17 +80,17 @@ bool MenuLayer::init(){
 			soundEffectTog->setSelectedIndex(1);
 		}
 	auto soundEffectMenu = Menu::create(soundEffectTog,NULL);
-	soundEffectMenu->setPosition(728,430);
+	soundEffectMenu->setPosition(427,760);
 	this->addChild(musicMenu,2);
 	this->addChild(soundEffectMenu,2);
 
 	quitBg = Sprite::create("quit_bg.png");
-	quitBg->setPosition(400,116);
+	quitBg->setPosition(240,116);
 	quitBg->setVisible(false);
 	this->addChild(quitBg,2);
 
 	quitDesc = Sprite::create("quit_desc.png");
-	quitDesc->setPosition(400,144);
+	quitDesc->setPosition(240,144);
 	quitDesc->setVisible(false);
 	this->addChild(quitDesc,2);
 
@@ -98,7 +98,7 @@ bool MenuLayer::init(){
 		"quit_confirm_up.png","quit_confirm_down.png",CC_CALLBACK_0(MenuLayer::quit,this)
 		);
 	confirmMenu = Menu::create(confirmBtn, NULL);
-	confirmMenu->setPosition(476,71);
+	confirmMenu->setPosition(316,71);
 	confirmMenu->setVisible(false);
 	this->addChild(confirmMenu,2);
 
@@ -106,7 +106,7 @@ bool MenuLayer::init(){
 		"quit_cancel_up.png","quit_cancel_down.png",CC_CALLBACK_0(MenuLayer::cancel,this)
 		);
 	cancelMenu = Menu::create(cancelBtn, NULL);
-	cancelMenu->setPosition(324,71);
+	cancelMenu->setPosition(164,71);
 	cancelMenu->setVisible(false);
 	this->addChild(cancelMenu,2);
 
@@ -141,7 +141,7 @@ bool MenuLayer::init(){
 //	schedule(schedule_selector(MenuLayer::autoStartGame), 0.2f, 0, 0);
 
 	aboutLayer = About::getInstance();
-	this->addChild(aboutLayer);
+	this->addChild(aboutLayer,3);
 	aboutLayer->setVisible(false);
 
 	Audio::getInstance()->playBGM("Music/bg.mp3");

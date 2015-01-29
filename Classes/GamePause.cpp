@@ -7,9 +7,13 @@ bool GamePause::init(){
 	}
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Sprite* background = Sprite::create("mouse_bg.png");
-	background->setPosition(visibleSize.width/2,visibleSize.height/2);
-	this->addChild(background,-1);
+
+	auto draw = DrawNode::create();
+	draw->drawSolidRect(Vec2(0,0), Vec2(480,800), Color4F::BLACK);
+	this->addChild(draw);
+
+	// TODO : 等待添加挖洞效果
+	
 
 	auto btnPause = MenuItemImage::create(
 		"b_helpc.png",

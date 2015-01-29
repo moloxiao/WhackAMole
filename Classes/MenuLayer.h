@@ -20,12 +20,6 @@ public:
 	void showQuit();
 	void setSignIn(bool signIn);
 
-	/** 
-     ��ö������� 
-     ��һ����������������
-     �ڶ�������������¼�
-     ����������������ͼƬ����
-     */
     Animation* getAnimationByName(std::string animName,float delay,int animNum);
 
 private:

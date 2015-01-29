@@ -30,15 +30,12 @@ bool MenuLayer::init(){
         CC_CALLBACK_0(MenuLayer::startGame, this));
     
 
-    // create menu, it's an autorelease object
     auto menu = Menu::create(BtnStart, NULL);
     menu->setPosition(visibleSize.width/2,200);
     this->addChild(menu, 1);
 
-	// ���������ӵ�����
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
 
-	// ľ鳶���
     Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
     AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
 	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
@@ -241,25 +238,16 @@ void MenuLayer::getMusicState(CCObject* pSender){
     }
 }
 
-/**
- * ��ö�����������
- * animName������֡������
- * delay������֡��֮֡��ļ��ʱ��
- * animNum������֡������
- */
 Animation* MenuLayer::getAnimationByName(std::string animName,float delay,int animNum){
     Animation* animation = Animation::create();
-    // ѭ���Ӿ���֡�����л�ȡ��ͼƬ�������Ӧ�ľ���֡��ɶ���
+
 	for(unsigned int i = 1;i<=animNum;i++){
-        // ��ȡ����ͼƬ���ƣ�����plane0.png
+
         std::string frameName = animName;
         frameName.append(StringUtils::format("%d",i)).append(".png");
-		// ������ͼƬ���Ϊ����֡��������֡��
 		animation->addSpriteFrameWithFile(frameName.c_str());
     }
-    // ���ö������ŵ�����
 	animation->setDelayPerUnit(delay);
-	// �þ�������ڶ���ִ�����ָ������״̬
 	animation->setRestoreOriginalFrame(true);
     return animation;
 }

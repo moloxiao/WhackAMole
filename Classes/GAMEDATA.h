@@ -13,6 +13,12 @@ public:
 	int getTotalScore();
 	void setTotalScore(int totalScore);
 
+	int getPowerValue();
+	void setPowerValue(int powerValue);
+
+	int getNightFightTimes();
+	void setNightFightTimes(int nightFightTimes);
+
 	void setSoundState(bool state);
 	bool getSoundState();
 	void setMusicState(bool state);

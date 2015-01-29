@@ -59,3 +59,19 @@ void GAMEDATA::setTotalScore(int totalScore){
 	UserDefault::getInstance()->setIntegerForKey("totalScore",totalScore);
 }
 
+int GAMEDATA::getPowerValue(){
+	return UserDefault::getInstance()->getIntegerForKey("powerValue",0);
+}
+
+void GAMEDATA::setPowerValue(int powerValue){
+	UserDefault::getInstance()->setIntegerForKey("powerValue",powerValue);
+}
+
+int GAMEDATA::getNightFightTimes(){
+	return UserDefault::getInstance()->getIntegerForKey("nightFightTimes",0);
+}
+
+void GAMEDATA::setNightFightTimes(int nightFightTimes){
+	UserDefault::getInstance()->setIntegerForKey("nightFightTimes",nightFightTimes);
+}
+

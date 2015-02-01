@@ -8,6 +8,8 @@
 #include "Chinese.h"
 #include "SimpleAudioEngine.h"
 
+using namespace cocos2d;
+
 bool MenuLayer::init(){
 	if(!Layer::init()){
 		return false;
@@ -15,7 +17,7 @@ bool MenuLayer::init(){
 	Audio::getInstance()->prepare();
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Sprite* background = Sprite::create("pr_bg.png");
+	Sprite* background = Sprite::create("menu_bg.png");
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
 	this->addChild(background,-1);
 
@@ -24,33 +26,68 @@ bool MenuLayer::init(){
 	//effect->setTotalParticles(100);
 	//addChild(effect);
 
-	 auto BtnStart = MenuItemImage::create(
-		"btn-start.png",
-        "btn-start.png",
+	auto power = Sprite::create("power.png");
+	power->setPosition(32,749);
+	this->addChild(power);
+
+	auto powerNum = LabelAtlas::create(String::createWithFormat(":%d",GAMEDATA::getInstance()->getPowerValue())->_string,"num_power.png",
+			24,29,48);
+	powerNum->setAnchorPoint(Point(0,0.5));
+	powerNum->setPosition(62,749);
+	this->addChild(powerNum);
+
+	auto cat = Sprite::create("cat.png");
+	cat->setPosition(visibleSize.width/2,280);
+	this->addChild(cat);
+
+	auto titleDay = Sprite::create("title_1.png");
+	titleDay->setPosition(240,629);
+	this->addChild(titleDay);
+
+	auto titleDa = Sprite::create("title_2.png");
+	titleDa->setPosition(90,498);
+	this->addChild(titleDa);
+
+	auto titleDi = Sprite::create("title_3.png");
+	titleDi->setPosition(243,512);
+	this->addChild(titleDi);
+
+	auto titleShu = Sprite::create("title_4.png");
+	titleShu->setPosition(398,501);
+	this->addChild(titleShu);
+
+	auto BtnStart = MenuItemImage::create(
+		"btn_bg_normal.png",
+        "btn_bg_click.png",
         CC_CALLBACK_0(MenuLayer::startGame, this));
-    
+    auto startMenu = Menu::create(BtnStart, NULL);
+    startMenu->setPosition(visibleSize.width/2,300);
+    this->addChild(startMenu, 1);
 
-    auto menu = Menu::create(BtnStart, NULL);
-    menu->setPosition(visibleSize.width/2,200);
-    this->addChild(menu, 1);
+    auto startGameTxt = Sprite::create("start_game_txt.png");
+    startGameTxt->setPosition(visibleSize.width/2,300);
+    this->addChild(startGameTxt, 1);
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
+    auto BtnAbout = MenuItemImage::create(
+    		"btn_bg_normal.png",
+            "btn_bg_click.png",
+            CC_CALLBACK_0(MenuLayer::showAbout, this));
+	auto aboutMenu = Menu::create(BtnAbout, NULL);
+	aboutMenu->setPosition(visibleSize.width/2,200);
+	this->addChild(aboutMenu,1);
 
-    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
-    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
-	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
-	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
-	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
-	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
+	auto aboutTxt = Sprite::create("game_about_txt.png");
+	aboutTxt->setPosition(visibleSize.width/2,200);
+	this->addChild(aboutTxt, 1);
 
-	auto about = Label::create(ChineseWord("about"),"Arial",24);
-	about->setPosition(450,40);
-	about->setAnchorPoint(Point(1,0.5));
-	this->addChild(about);
-
-	auto aboutListener = EventListenerTouchOneByOne::create();
-	aboutListener->onTouchBegan = CC_CALLBACK_2(MenuLayer::showAbout,this);
-	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(aboutListener,about);
+//    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
+//
+//    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
+//    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
+//	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
+//	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
+//	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
+//	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
 	MenuItemImage* musicBtnOn = MenuItemImage::create("bg_music_open.png","bg_music_open.png");
 	MenuItemImage* musicBtnOff = MenuItemImage::create("bg_music_close.png","bg_music_close.png");
@@ -65,7 +102,7 @@ bool MenuLayer::init(){
 		}
 	auto musicMenu = Menu::create(musicTog,NULL);
 	musicMenu->setPosition(349,760);
-	MenuItemImage* soundEffectOn = MenuItemImage::create("sound_effect_on.png","sound_effect_on.png");
+	MenuItemImage* soundEffectOn = MenuItemImage::create("sound_effect_open.png","sound_effect_open.png");
 	MenuItemImage* soundEffectOff = MenuItemImage::create("sound_effect_close.png","sound_effect_close.png");
 	MenuItemToggle* soundEffectTog = MenuItemToggle::createWithTarget(this,menu_selector(MenuLayer::getSoudState),soundEffectOn,soundEffectOff,NULL);
 	 if (GAMEDATA::getInstance()->getSoundState())
@@ -135,7 +172,7 @@ bool MenuLayer::init(){
 			this->addChild(signIn,5);
 		}
 	#endif
-//	schedule(schedule_selector(MenuLayer::autoStartGame), 0.2f, 0, 0);
+	schedule(schedule_selector(MenuLayer::autoStartGame), 0.2f, 0, 0);
 
 	aboutLayer = About::getInstance();
 	this->addChild(aboutLayer,3);
@@ -193,20 +230,18 @@ void MenuLayer::autoStartGame(float dt){
 		if(CallAndroidMethod::getInstance()->notSignToday()){
 
 		}else{
-			Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
+			if(GAMEDATA::getInstance()->isFirstLogin() && GAMEDATA::getInstance()->getPlayRounds()<=2){
+				Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
+			}
 		}
     #endif
 }
 
-bool MenuLayer::showAbout(Touch* touch,Event* event){
-	if(event->getCurrentTarget()->getBoundingBox().containsPoint(touch->getLocation())){
-		if(signIn->isVisible() || quitBg->isVisible()){
-			return true;
-		}
-		aboutLayer->setVisible(true);
-		return true;
+void MenuLayer::showAbout(){
+	if(signIn->isVisible() || quitBg->isVisible()){
+		return;
 	}
-	return false;
+	aboutLayer->setVisible(true);
 }
 
 void MenuLayer::getSoudState(CCObject* pSender){

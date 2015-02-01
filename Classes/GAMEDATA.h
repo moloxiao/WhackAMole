@@ -19,6 +19,12 @@ public:
 	int getNightFightTimes();
 	void setNightFightTimes(int nightFightTimes);
 
+	int getPlayRounds();
+	void setPlayRounds(int playRounds);
+
+	bool isFirstLogin();
+	void setFirstLogin(bool first_login);
+
 	void setSoundState(bool state);
 	bool getSoundState();
 	void setMusicState(bool state);
@@ -28,6 +34,7 @@ private:
 	void init();
 	static GAMEDATA* _instance;
 	int gameScore;
+	bool firstLognin;
 
 };
 #endif

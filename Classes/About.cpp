@@ -19,7 +19,7 @@ bool About::init(){
 		return false;
 	}
 
-	auto bg = Sprite::create("pr_bg.png");
+	auto bg = Sprite::create("result_bg.png");
 	bg->setPosition(240,400);
 	this->addChild(bg);
 

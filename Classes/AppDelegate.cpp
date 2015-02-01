@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "MenuScene.h"
+#include "GAMEDATA.h"
 
 USING_NS_CC;
 
@@ -25,6 +26,8 @@ void AppDelegate::initGLContextAttrs()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     
+	GAMEDATA::getInstance()->setFirstLogin(true);
+
 	auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {

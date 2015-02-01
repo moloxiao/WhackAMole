@@ -12,7 +12,7 @@ public:
 	CREATE_FUNC(MenuLayer);
 	void startGame();
 	void autoStartGame(float dt);
-	bool showAbout(Touch* touch,Event* event);
+	void showAbout();
 	void getSoudState(CCObject* pSender);
 	void getMusicState(CCObject* pSender);
 	void quit();

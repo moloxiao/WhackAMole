@@ -75,3 +75,19 @@ void GAMEDATA::setNightFightTimes(int nightFightTimes){
 	UserDefault::getInstance()->setIntegerForKey("nightFightTimes",nightFightTimes);
 }
 
+bool GAMEDATA::isFirstLogin(){
+	return firstLognin;
+}
+
+void GAMEDATA::setFirstLogin(bool first_login){
+	firstLognin = first_login;
+}
+
+int GAMEDATA::getPlayRounds(){
+	return UserDefault::getInstance()->getIntegerForKey("playRounds",0);
+}
+
+void GAMEDATA::setPlayRounds(int playRounds){
+	UserDefault::getInstance()->setIntegerForKey("playRounds",playRounds);
+}
+

@@ -80,14 +80,14 @@ bool MenuLayer::init(){
 	aboutTxt->setPosition(visibleSize.width/2,200);
 	this->addChild(aboutTxt, 1);
 
-//    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
-//
-//    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
-//    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
-//	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
-//	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
-//	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
-//	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
+
+    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
+    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
+	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
+	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
+	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
+	AnimationCache::getInstance()->addAnimation(hitAnimation, "hitAnimation");
 
 	MenuItemImage* musicBtnOn = MenuItemImage::create("bg_music_open.png","bg_music_open.png");
 	MenuItemImage* musicBtnOff = MenuItemImage::create("bg_music_close.png","bg_music_close.png");

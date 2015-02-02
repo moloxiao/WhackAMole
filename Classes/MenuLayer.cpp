@@ -37,6 +37,14 @@ bool MenuLayer::init(){
 	powerNum->setPosition(62,749);
 	this->addChild(powerNum);
 
+	auto btnBuyPower = MenuItemImage::create(
+		"power_buy_btn.png",
+		"power_buy_btn.png",
+		CC_CALLBACK_0(MenuLayer::buyPower, this));
+	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
+	buyPowerMenu->setPosition(135,749);
+	this->addChild(buyPowerMenu);
+
 	auto cat = Sprite::create("cat.png");
 	cat->setPosition(visibleSize.width/2,280);
 	this->addChild(cat);
@@ -81,10 +89,10 @@ bool MenuLayer::init(){
 	aboutTxt->setPosition(visibleSize.width/2,200);
 	this->addChild(aboutTxt, 1);
 
-//    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
-//
-//    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
-//    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("resources.plist");
+
+    Animation* malletAnimation = getAnimationByName("mallet", 0.05f, 3);
+    AnimationCache::getInstance()->addAnimation(malletAnimation, "malletAnimation");
 //	Animation* laughAnimation = getAnimationByName("mole_laugh", 0.2f, 3);
 //	AnimationCache::getInstance()->addAnimation(laughAnimation, "laughAnimation");
 //	Animation* hitAnimation = getAnimationByName("mole_thump", 0.05f, 4);
@@ -188,6 +196,12 @@ void MenuLayer::startGame(){
 	Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
 }
 
+void MenuLayer::buyPower(){
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		CallAndroidMethod::getInstance()->pay(2);
+	#endif
+}
+
 void MenuLayer::showQuit(){
 	if(aboutLayer->isVisible()){
 		return;
@@ -206,7 +220,7 @@ void MenuLayer::showQuit(){
 		}else{
 			hasShowQuitPay = true;
 			#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-				CallAndroidMethod::getInstance()->pay(1);
+				CallAndroidMethod::getInstance()->pay(4);
     		#endif
 		}
 	}

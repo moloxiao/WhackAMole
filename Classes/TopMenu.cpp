@@ -4,6 +4,7 @@
 #include "GamePause.h"
 #include "Audio.h"
 #include "GAMEDATA.h"
+#include "CallAndroidMethod.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -34,6 +35,14 @@ bool TopMenu::init(){
 	powerNum->setAnchorPoint(Point(0,0.5));
 	powerNum->setPosition(62,749);
 	this->addChild(powerNum);
+
+	auto btnBuyPower = MenuItemImage::create(
+		"power_buy_btn.png",
+		"power_buy_btn.png",
+		CC_CALLBACK_0(TopMenu::buyPower, this));
+	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
+	buyPowerMenu->setPosition(135,749);
+	this->addChild(buyPowerMenu);
 
 	auto scoreTxt = Sprite::create("score_txt.png");
 	scoreTxt->setPosition(240,749);
@@ -67,6 +76,12 @@ bool TopMenu::init(){
     menu->setAnchorPoint(Point(1,0.5));
     this->addChild(menu, 1);
 	return true;
+}
+
+void TopMenu::buyPower(){
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		CallAndroidMethod::getInstance()->pay(2);
+	#endif
 }
 
 void TopMenu::pauseGame() {

@@ -14,6 +14,7 @@ public:
 	void updateGameTime(int gameTime);
 	void updateGameScore(int gameScore);
 	void pauseGame();
+	void buyPower();
 private:
 	static TopMenu* _instance;
 	TopMenu();

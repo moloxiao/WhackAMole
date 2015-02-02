@@ -19,6 +19,7 @@ public:
 	void cancel();
 	void showQuit();
 	void setSignIn(bool signIn);
+	void buyPower();
 
     Animation* getAnimationByName(std::string animName,float delay,int animNum);
 

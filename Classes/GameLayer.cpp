@@ -16,12 +16,12 @@ bool GameLayer::init(){
 	needAddTime = false;
 	hasShowPay = false;
 	GAMEDATA::getInstance()->setPlayRounds(GAMEDATA::getInstance()->getPlayRounds()+1);
-		int powerValue = GAMEDATA::getInstance()->getPowerValue();
-		if(powerValue == 0){
-			//TODO 启购买体力值的支付
-			powerValue = 1;
-		}
-		GAMEDATA::getInstance()->setPowerValue(powerValue-1);
+	int powerValue = GAMEDATA::getInstance()->getPowerValue();
+	if(powerValue == 0){
+		//TODO 启购买体力值的支付
+		powerValue = 1;
+	}
+	GAMEDATA::getInstance()->setPowerValue(powerValue-1);
 	Audio::getInstance()->playBGM("Music/fightbg.mp3");
 
 	gameTime = DEFAULT_GAME_TIME;
@@ -283,7 +283,7 @@ void GameLayer::updateGameTime(float delta) {
 			auto nightComming = FadeTo::create(2.5f,255);
 			blackBg->runAction(Sequence::create(nightComming,CallFunc::create([=]{
 				#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-					CallAndroidMethod::getInstance()->pay(5);
+					CallAndroidMethod::getInstance()->pay(3);
 				#endif
 			}),NULL));
 		}

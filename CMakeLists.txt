@@ -134,6 +134,7 @@ set(GAME_SRC
   Classes/About.cpp
   Classes/CallAndroidMethod.cpp
   Classes/PlayerRank.cpp
+  Classes/Power.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -158,6 +159,7 @@ set(GAME_HEADERS
   Classes/About.h
   Classes/CallAndroidMethod.h
   Classes/PlayerRank.h
+  Classes/Power.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

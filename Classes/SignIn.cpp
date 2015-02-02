@@ -3,6 +3,7 @@
 #include "CallAndroidMethod.h"
 #include "GameData.h"
 #include "GameScene.h"
+#include "Power.h"
 
 SignIn* SignIn::_instance = nullptr;
 SignIn::SignIn(){
@@ -21,7 +22,9 @@ bool SignIn::init(){
 		return false;
 	}
 
-	auto bg = Sprite::create("result_bg.png");
+	auto bg = Sprite::create("black.png");
+	bg->setScaleX(480);
+	bg->setScaleY(800);
 	bg->setPosition(240,400);
 	this->addChild(bg);
 
@@ -41,11 +44,11 @@ bool SignIn::init(){
 	itemTitle1->setPosition(70,436);
 	this->addChild(itemTitle1);
 
-	auto itemGold1 = Sprite::create("gold.png");
+	auto itemGold1 = Sprite::create("power.png");
 	itemGold1->setPosition(56,390);
 	this->addChild(itemGold1);
 
-	auto itemGoldNum1 = Label::create(String::createWithFormat("%d",15)->_string,"Arial",24);
+	auto itemGoldNum1 = Label::create(String::createWithFormat("%d",2)->_string,"Arial",24);
 	itemGoldNum1->setPosition(84,390);
 	this->addChild(itemGoldNum1);
 
@@ -61,11 +64,11 @@ bool SignIn::init(){
 	itemTitle2->setPosition(155,436);
 	this->addChild(itemTitle2);
 
-	auto itemGold2 = Sprite::create("gold.png");
+	auto itemGold2 = Sprite::create("power.png");
 	itemGold2->setPosition(141,390);
 	this->addChild(itemGold2);
 
-	auto itemGoldNum2 = Label::create(String::createWithFormat("%d",20)->_string,"Arial",24);
+	auto itemGoldNum2 = Label::create(String::createWithFormat("%d",4)->_string,"Arial",24);
 	itemGoldNum2->setPosition(169,390);
 	this->addChild(itemGoldNum2);
 
@@ -81,11 +84,11 @@ bool SignIn::init(){
 	itemTitle3->setPosition(240,436);
 	this->addChild(itemTitle3);
 
-	auto itemGold3 = Sprite::create("gold.png");
+	auto itemGold3 = Sprite::create("power.png");
 	itemGold3->setPosition(226,390);
 	this->addChild(itemGold3);
 
-	auto itemGoldNum3 = Label::create(String::createWithFormat("%d",25)->_string,"Arial",24);
+	auto itemGoldNum3 = Label::create(String::createWithFormat("%d",6)->_string,"Arial",24);
 	itemGoldNum3->setPosition(254,390);
 	this->addChild(itemGoldNum3);
 
@@ -101,11 +104,11 @@ bool SignIn::init(){
 	itemTitle4->setPosition(325,436);
 	this->addChild(itemTitle4);
 
-	auto itemGold4 = Sprite::create("gold.png");
+	auto itemGold4 = Sprite::create("power.png");
 	itemGold4->setPosition(311,390);
 	this->addChild(itemGold4);
 
-	auto itemGoldNum4 = Label::create(String::createWithFormat("%d",30)->_string,"Arial",24);
+	auto itemGoldNum4 = Label::create(String::createWithFormat("%d",8)->_string,"Arial",24);
 	itemGoldNum4->setPosition(339,390);
 	this->addChild(itemGoldNum4);
 
@@ -121,11 +124,11 @@ bool SignIn::init(){
 	itemTitle5->setPosition(410,436);
 	this->addChild(itemTitle5);
 
-	auto itemGold5 = Sprite::create("gold.png");
+	auto itemGold5 = Sprite::create("power.png");
 	itemGold5->setPosition(396,390);
 	this->addChild(itemGold5);
 
-	auto itemGoldNum5 = Label::create(String::createWithFormat("%d",35)->_string,"Arial",24);
+	auto itemGoldNum5 = Label::create(String::createWithFormat("%d",10)->_string,"Arial",24);
 	itemGoldNum5->setPosition(424,390);
 	this->addChild(itemGoldNum5);
 
@@ -179,7 +182,11 @@ void SignIn::hideSelf(){
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->sign();
     #endif
-
+	if(signDay >= 4){
+		signDay = 4;
+	}
+	GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()+(signDay+1)*2);
+	Power::getInstance()->refreshPower();
 	this->setVisible(false);
 	this->removeFromParentAndCleanup(true);
 }

@@ -27,7 +27,13 @@ void PayHandler::payCallback(int requestId,int resultId){
 
 		break;
 	case 3:
-
+		if(resultId == 0){
+			GAMESTATE::getInstance()->setGamePause(false);
+			GameLayer::needAddTime = true;
+		}else{
+			GameLayer::needAddTime = false;
+			GAMESTATE::getInstance()->setGamePause(false);
+		}
 		break;
 	case 4:
 		if(resultId == 0){

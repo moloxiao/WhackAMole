@@ -7,6 +7,7 @@
 #include "GAMEDATA.h"
 #include "Chinese.h"
 #include "SimpleAudioEngine.h"
+#include "Power.h"
 
 using namespace cocos2d;
 
@@ -31,10 +32,7 @@ bool MenuLayer::init(){
 	power->setAnchorPoint(Point(0,0.5));
 	this->addChild(power);
 
-	auto powerNum = LabelAtlas::create(String::createWithFormat(":%d",GAMEDATA::getInstance()->getPowerValue())->_string,"num_power.png",
-			24,29,48);
-	powerNum->setAnchorPoint(Point(0,0.5));
-	powerNum->setPosition(62,749);
+	auto powerNum = Power::getInstance();
 	this->addChild(powerNum);
 
 	auto btnBuyPower = MenuItemImage::create(
@@ -183,27 +181,167 @@ bool MenuLayer::init(){
 	#endif
 	schedule(schedule_selector(MenuLayer::autoStartGame), 0.2f, 0, 0);
 
-	aboutLayer = About::getInstance();
-	this->addChild(aboutLayer,3);
-	aboutLayer->setVisible(false);
+	aboutBg = Sprite::create("result_bg.png");
+	aboutBg->setPosition(240,400);
+	this->addChild(aboutBg,3);
+
+	smallTitle11 = Label::create(ChineseWord("abouttitle11"),"Arial",36);
+	smallTitle11->setPosition(60,718);
+	smallTitle11->setAnchorPoint(Point(0,0.5));
+	this->addChild(smallTitle11,3);
+
+	int totalScore = GAMEDATA::getInstance()->getTotalMouseNum();
+
+	smallTitle12 = Label::create(String::createWithFormat("%d",
+			totalScore)->_string+ChineseWord("abouttitle12"),"Arial",36);
+	smallTitle12->setPosition(60,668);
+	smallTitle12->setAnchorPoint(Point(0,0.5));
+	this->addChild(smallTitle12,3);
+
+	smallTitle21 = Label::create(ChineseWord("abouttitle21"),"Arial",36);
+	smallTitle21->setPosition(60,618);
+	smallTitle21->setAnchorPoint(Point(0,0.5));
+	this->addChild(smallTitle21,3);
+
+	smallTitle22 = Label::create(String::createWithFormat("%d",
+			totalScore*1000)->_string+ChineseWord("abouttitle22"),"Arial",36);
+	smallTitle22->setPosition(60,568);
+	smallTitle22->setAnchorPoint(Point(0,0.5));
+	this->addChild(smallTitle22,3);
+
+	titleDesc1 = Label::create(ChineseWord("aboutdesc1"),"Arial",24);
+	titleDesc1->setPosition(60,478);
+	titleDesc1->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc1,3);
+
+	titleDesc2 = Label::create(ChineseWord("aboutdesc2"),"Arial",24);
+	titleDesc2->setPosition(60,438);
+	titleDesc2->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc2,3);
+
+	titleDesc3 = Label::create(ChineseWord("aboutdesc3"),"Arial",24);
+	titleDesc3->setPosition(60,398);
+	titleDesc3->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc3,3);
+
+	titleDesc4 = Label::create(ChineseWord("aboutdesc4"),"Arial",24);
+	titleDesc4->setPosition(60,358);
+	titleDesc4->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc4,3);
+
+	titleDesc5 = Label::create(ChineseWord("aboutdesc5"),"Arial",24);
+	titleDesc5->setPosition(60,318);
+	titleDesc5->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc5,3);
+
+	titleDesc6 = Label::create(ChineseWord("aboutdesc6"),"Arial",24);
+	titleDesc6->setPosition(60,278);
+	titleDesc6->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc6,3);
+
+	titleDesc7 = Label::create(ChineseWord("aboutdesc7"),"Arial",24);
+	titleDesc7->setPosition(60,238);
+	titleDesc7->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc7,3);
+
+	titleDesc8 = Label::create(ChineseWord("aboutdesc8"),"Arial",24);
+	titleDesc8->setPosition(60,198);
+	titleDesc8->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc8,3);
+
+	titleDesc9 = Label::create(ChineseWord("aboutdesc9"),"Arial",24);
+	titleDesc9->setPosition(60,158);
+	titleDesc9->setAnchorPoint(Point(0,0.5));
+	this->addChild(titleDesc9,3);
+
+	auto contiBtn = MenuItemImage::create(
+		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(MenuLayer::startGameT,this)
+		);
+	contiMenu = Menu::create(contiBtn, NULL);
+	contiMenu->setPosition(348,90);
+	contiMenu->setAnchorPoint(Point(1,0.5));
+	this->addChild(contiMenu,3);
+
+	startTxt = Sprite::create("start_game_txt.png");
+	startTxt->setPosition(429,90);
+	startTxt->setAnchorPoint(Point(1,0.5));
+	this->addChild(startTxt,3);
+
+	auto backBtn = MenuItemImage::create(
+		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(MenuLayer::hideAbout,this)
+		);
+	backMenu = Menu::create(backBtn, NULL);
+	backMenu->setPosition(132,90);
+	backMenu->setAnchorPoint(Point(0,0.5));
+	this->addChild(backMenu,3);
+
+	backTxt = Sprite::create("back_menu_txt.png");
+	backTxt->setPosition(47,90);
+	backTxt->setAnchorPoint(Point(0,0.5));
+	this->addChild(backTxt,3);
+	setAboutVisible(false);
 
 	Audio::getInstance()->playBGM("Music/bg.mp3");
 	return true;
 }
 
+void MenuLayer::hideAbout(){
+	if(signIn->isVisible()){
+		return;
+	}
+	Audio::getInstance()->playSound("Music/click.ogg");
+	setAboutVisible(false);
+}
+
+void MenuLayer::startGameT(){
+	if(signIn->isVisible() ){
+		return;
+	}
+	Audio::getInstance()->playSound("Music/click.ogg");
+	Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
+}
+
+void MenuLayer::setAboutVisible(bool visible){
+	aboutBg->setVisible(visible);
+	smallTitle11->setVisible(visible);
+	smallTitle12->setVisible(visible);
+	smallTitle21->setVisible(visible);
+	smallTitle22->setVisible(visible);
+	titleDesc1->setVisible(visible);
+	titleDesc2->setVisible(visible);
+	titleDesc3->setVisible(visible);
+	titleDesc4->setVisible(visible);
+	titleDesc5->setVisible(visible);
+	titleDesc6->setVisible(visible);
+	titleDesc7->setVisible(visible);
+	titleDesc8->setVisible(visible);
+	titleDesc9->setVisible(visible);
+	backMenu->setVisible(visible);
+	contiMenu->setVisible(visible);
+	startTxt->setVisible(visible);
+	backTxt->setVisible(visible);
+}
+
 void MenuLayer::startGame(){
+	if(signIn->isVisible() || quitBg->isVisible() || aboutBg->isVisible()){
+		return;
+	}
 	Audio::getInstance()->playSound("Music/click.ogg");
 	Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
 }
 
 void MenuLayer::buyPower(){
+	if(signIn->isVisible() || aboutBg->isVisible()){
+		return;
+	}
+	Audio::getInstance()->playSound("Music/click.ogg");
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->pay(2);
 	#endif
 }
 
 void MenuLayer::showQuit(){
-	if(aboutLayer->isVisible()){
+	if(signIn->isVisible() || aboutBg->isVisible()){
 		return;
 	}
 	if(GAMEDATA::getInstance()->isPaySuccess()){
@@ -220,13 +358,14 @@ void MenuLayer::showQuit(){
 		}else{
 			hasShowQuitPay = true;
 			#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-				CallAndroidMethod::getInstance()->pay(4);
+				CallAndroidMethod::getInstance()->pay(6);
     		#endif
 		}
 	}
 }
 
 void MenuLayer::quit(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->startNativeNotify();
     #endif
@@ -234,6 +373,7 @@ void MenuLayer::quit(){
 }
 
 void MenuLayer::cancel(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	quitBg->setVisible(false);
 	quitDesc->setVisible(false);
 	confirmMenu->setVisible(false);
@@ -256,10 +396,12 @@ void MenuLayer::showAbout(){
 	if(signIn->isVisible() || quitBg->isVisible()){
 		return;
 	}
-	aboutLayer->setVisible(true);
+	Audio::getInstance()->playSound("Music/click.ogg");
+	setAboutVisible(true);
 }
 
 void MenuLayer::getSoudState(CCObject* pSender){
+	Audio::getInstance()->playSound("Music/click.ogg");
     CCMenuItemToggle* temp=(CCMenuItemToggle*)pSender;
 
     if (temp->getSelectedIndex()==1)
@@ -275,6 +417,7 @@ void MenuLayer::getSoudState(CCObject* pSender){
 }
 
 void MenuLayer::getMusicState(CCObject* pSender){
+	Audio::getInstance()->playSound("Music/click.ogg");
     CCMenuItemToggle* temp=(CCMenuItemToggle*)pSender;
     if (temp->getSelectedIndex()==1)
     {

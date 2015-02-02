@@ -5,6 +5,7 @@
 #include "Audio.h"
 #include "GAMEDATA.h"
 #include "CallAndroidMethod.h"
+#include "Power.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -30,10 +31,7 @@ bool TopMenu::init(){
 	power->setAnchorPoint(Point(0,0.5));
 	this->addChild(power);
 
-	auto powerNum = LabelAtlas::create(String::createWithFormat(":%d",GAMEDATA::getInstance()->getPowerValue())->_string,"num_power.png",
-			24,29,48);
-	powerNum->setAnchorPoint(Point(0,0.5));
-	powerNum->setPosition(62,749);
+	auto powerNum = Power::getInstance();
 	this->addChild(powerNum);
 
 	auto btnBuyPower = MenuItemImage::create(

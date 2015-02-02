@@ -92,7 +92,7 @@ void GamePause::backMenu(){
 
 void GamePause::pay(){
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		CallAndroidMethod::getInstance()->pay(1);
+		CallAndroidMethod::getInstance()->pay(4);
 	#endif
 }
 

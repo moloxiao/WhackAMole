@@ -7,11 +7,14 @@ public:
 	void setGameScore(int score);
 	int getGameScore();
 	
+	void setMouseNum(int mouse_num);
+	int getMouseNum();
+
 	bool isPaySuccess();
 	void setPaySuccess(bool paySuccess);
 
-	int getTotalScore();
-	void setTotalScore(int totalScore);
+	int getTotalMouseNum();
+	void setTotalMouseNum(int totalMouseNum);
 
 	int getPowerValue();
 	void setPowerValue(int powerValue);
@@ -34,6 +37,7 @@ private:
 	void init();
 	static GAMEDATA* _instance;
 	int gameScore;
+	int mouseNum;
 	bool firstLognin;
 
 };

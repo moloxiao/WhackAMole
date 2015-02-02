@@ -10,6 +10,7 @@ GAMEDATA::GAMEDATA(){
 
 void GAMEDATA::init(){
 	gameScore = 0;
+	mouseNum = 0;
 }
 
 GAMEDATA* GAMEDATA::getInstance(){
@@ -25,6 +26,14 @@ void GAMEDATA::setGameScore(int score){
 
 int GAMEDATA::getGameScore(){
 	return gameScore;
+}
+
+void GAMEDATA::setMouseNum(int mouse_num){
+	mouseNum = mouse_num;
+}
+
+int GAMEDATA::getMouseNum(){
+	return mouseNum;
 }
 
 void GAMEDATA::setSoundState(bool state) {
@@ -51,12 +60,12 @@ void GAMEDATA::setPaySuccess(bool paySuccess){
 	UserDefault::getInstance()->setBoolForKey("paySuccess",paySuccess);
 }
 
-int GAMEDATA::getTotalScore(){
-	return UserDefault::getInstance()->getIntegerForKey("totalScore",0);
+int GAMEDATA::getTotalMouseNum(){
+	return UserDefault::getInstance()->getIntegerForKey("totalMouseNum",0);
 }
 
-void GAMEDATA::setTotalScore(int totalScore){
-	UserDefault::getInstance()->setIntegerForKey("totalScore",totalScore);
+void GAMEDATA::setTotalMouseNum(int totalMouseNum){
+	UserDefault::getInstance()->setIntegerForKey("totalMouseNum",totalMouseNum);
 }
 
 int GAMEDATA::getPowerValue(){

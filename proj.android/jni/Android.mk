@@ -30,7 +30,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				  ../../Classes/PayHandler.cpp\
 				  ../../Classes/SignIn.cpp\
 				  ../../Classes/About.cpp\
-				  ../../Classes/CallAndroidMethod.cpp
+				  ../../Classes/CallAndroidMethod.cpp\
+				  ../../Classes/PlayerRank.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

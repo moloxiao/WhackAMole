@@ -1,5 +1,7 @@
 #include "PayHandler.h"
 #include "GAMEDATA.h"
+#include "GameLayer.h"
+#include "GameState.h"
 
 static PayHandler* _instance = nullptr;
 PayHandler* PayHandler::getInstance()
@@ -28,10 +30,22 @@ void PayHandler::payCallback(int requestId,int resultId){
 
 		break;
 	case 4:
-
+		if(resultId == 0){
+			GAMESTATE::getInstance()->setGamePause(false);
+			GameLayer::needAddTime = true;
+		}else{
+			GameLayer::needAddTime = false;
+			GAMESTATE::getInstance()->setGamePause(false);
+		}
 		break;
 	case 5:
-
+		if(resultId == 0){
+			GAMESTATE::getInstance()->setGamePause(false);
+			GameLayer::needAddTime = true;
+		}else{
+			GameLayer::needAddTime = false;
+			GAMESTATE::getInstance()->setGamePause(false);
+		}
 		break;
 	case 6:
 

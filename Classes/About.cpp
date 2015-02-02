@@ -28,7 +28,7 @@ bool About::init(){
 	smallTitle11->setAnchorPoint(Point(0,0.5));
 	this->addChild(smallTitle11);
 
-	int totalScore = GAMEDATA::getInstance()->getTotalScore();
+	int totalScore = GAMEDATA::getInstance()->getTotalMouseNum();
 
 	auto smallTitle12 = Label::create(String::createWithFormat("%d",
 			totalScore)->_string+ChineseWord("abouttitle12"),"Arial",36);

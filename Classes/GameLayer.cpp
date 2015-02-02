@@ -5,11 +5,16 @@
 #include "Audio.h"
 #include "FloatWord.h"
 #include "Chinese.h"
+#include "CallAndroidMethod.h"
+
+bool GameLayer::needAddTime = false;
 
 bool GameLayer::init(){
 	if(!Layer::init()){
 		return false;
 	}
+	needAddTime = false;
+	hasShowPay = false;
 	GAMEDATA::getInstance()->setPlayRounds(GAMEDATA::getInstance()->getPlayRounds()+1);
 		int powerValue = GAMEDATA::getInstance()->getPowerValue();
 		if(powerValue == 0){
@@ -23,6 +28,7 @@ bool GameLayer::init(){
 	GAMESTATE::getInstance()->reset();
 
 	gameScore = 0;
+	mouseNum = 0;
 	gameScoreAdd = DEFAUL_SCORE_ADD;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -34,11 +40,21 @@ bool GameLayer::init(){
 		auto Mole3X1 = Sprite::create("mouse_hole.png");
 		Mole3X1->setPosition(90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
-		auto Mouse3X1 = Sprite::create("mole_1.png");
+		auto MouseClaw1 = Sprite::create("mouse_claw.png");
+		MouseClaw1->setPosition(53,50+i*160);
+		MouseClaw1->setScale(0);
+		MouseClaw1->setRotation(90);
+		this->addChild(MouseClaw1,1);
+		auto MouseClaw2 = Sprite::create("mouse_claw.png");
+		MouseClaw2->setPosition(127,50+i*160);
+		MouseClaw2->setScale(0);
+		MouseClaw2->setRotation(90);
+		this->addChild(MouseClaw2,1);
+		auto Mouse3X1 = Sprite::create("mouse_1.png");
 		Mouse3X1->setPosition(90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
-		this->addChild(Mouse3X1, 1);
+		this->addChild(Mouse3X1, 2);
 		_mousesVector.pushBack(Mouse3X1);
 	}
 
@@ -46,7 +62,17 @@ bool GameLayer::init(){
 		auto Mole3X1 = Sprite::create("mouse_hole.png");
 		Mole3X1->setPosition(visibleSize.width/2, 100 + i*160);
 		this->addChild(Mole3X1, 0);
-		auto Mouse3X1 = Sprite::create("mole_1.png");
+		auto MouseClaw1 = Sprite::create("mouse_claw.png");
+		MouseClaw1->setPosition(visibleSize.width/2-37,50+i*160);
+		MouseClaw1->setScale(0);
+		MouseClaw1->setRotation(90);
+		this->addChild(MouseClaw1,1);
+		auto MouseClaw2 = Sprite::create("mouse_claw.png");
+		MouseClaw2->setPosition(visibleSize.width/2+37,50+i*160);
+		MouseClaw2->setScale(0);
+		MouseClaw2->setRotation(90);
+		this->addChild(MouseClaw2,1);
+		auto Mouse3X1 = Sprite::create("mouse_1.png");
 		Mouse3X1->setPosition(visibleSize.width/2, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
@@ -58,7 +84,17 @@ bool GameLayer::init(){
 		auto Mole3X1 = Sprite::create("mouse_hole.png");
 		Mole3X1->setPosition(visibleSize.width-90, 100 + i*160);
 		this->addChild(Mole3X1, 0);
-		auto Mouse3X1 = Sprite::create("mole_1.png");
+		auto MouseClaw1 = Sprite::create("mouse_claw.png");
+		MouseClaw1->setPosition(visibleSize.width/2-127,50+i*160);
+		MouseClaw1->setScale(0);
+		MouseClaw1->setRotation(90);
+		this->addChild(MouseClaw1,1);
+		auto MouseClaw2 = Sprite::create("mouse_claw.png");
+		MouseClaw2->setPosition(visibleSize.width/2-53,50+i*160);
+		MouseClaw2->setScale(0);
+		MouseClaw2->setRotation(90);
+		this->addChild(MouseClaw2,1);
+		auto Mouse3X1 = Sprite::create("mouse_1.png");
 		Mouse3X1->setPosition(visibleSize.width-90, 130 + i*160);
 		Mouse3X1->setScale(0);
 		Mouse3X1->setTag(0);
@@ -93,9 +129,16 @@ bool GameLayer::init(){
                 mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=]{
 					Audio::getInstance()->playSound("Music/normalhit.ogg");
 					// 锟斤拷锟襟被达拷锟叫后播凤拷锟斤拷锟斤拷效锟斤拷
-                    auto aswoon = ParticleSystemQuad::create("aswoon.plist");
-                    aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
-                    this->addChild(aswoon);
+//                    auto aswoon = ParticleSystemQuad::create("aswoon.plist");
+//                    aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
+//                    this->addChild(aswoon);
+					auto beHit = Sprite::create("mouse_3.png");
+					beHit->setPosition(mole->getPosition().x, mole->getPosition().y);
+					this->addChild(beHit);
+					auto beHitAction = ScaleTo::create(0.4f,1.0f);
+					beHit->runAction(Sequence::create(beHitAction,CallFunc::create([=]{
+						this->removeChild(beHit);
+					}),NULL));
                     // 删锟斤拷木锟�
                     this->removeChild(mallet);
                 }), NULL));
@@ -107,13 +150,14 @@ bool GameLayer::init(){
 				mole->stopAllActions();
 				//auto scale2Action = ScaleTo::create(0.1f, 1.0f);
 				
-				auto hitAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("hitAnimation"));
+//				auto hitAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("hitAnimation"));
 				auto scale3Action = ScaleTo::create(0.1f, 0.0f);
-                mole->runAction(Sequence::create( hitAnimate, scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
+                mole->runAction(Sequence::create(scale3Action, CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)), NULL));
 
 				// TODO : 锟斤拷锟斤拷锟斤拷戏锟斤拷锟斤拷
 				gameScore += gameScoreAdd;
 				gameScoreAdd +=DEFAUL_SCORE_ADD;
+				mouseNum += 1;
 				menu->updateGameScore(gameScore);
 			}
 		}
@@ -141,6 +185,13 @@ bool GameLayer::init(){
 					GAMESTATE::getInstance()->setGamePause(false);
 				});
 
+	blackBg = Sprite::create("black.png");
+	blackBg->setPosition(240,400);
+	blackBg->setScaleX(480);
+	blackBg->setScaleY(800);
+	blackBg->setOpacity(0);
+	this->addChild(blackBg);
+
 	return true;
 }
 
@@ -157,13 +208,18 @@ void GameLayer::randomPopMoles(float delta){
 			if (mole->getNumberOfRunningActions() == 0 && mole->getTag() == 0)
             {
 				auto scale1Action = ScaleTo::create(0.2f, 1.0f);
-				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
+//				auto laughAnimate = Animate::create(AnimationCache::getInstance()->getAnimation("laughAnimation"));
+				auto motion1 = MoveTo::create(0.2f,Point(mole->getPosition().x, mole->getPosition().y-8));
+				auto motion2 = MoveTo::create(0.2f,Point(mole->getPosition().x, mole->getPosition().y));
 				auto scale2Action = ScaleTo::create(2.5f, 1.0f);
 				auto scale3Action = ScaleTo::create(0.2f, 0.0f);
 				mole->runAction(Sequence::create(
 					scale1Action, 
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::setHit, this)),
-					laughAnimate,
+					motion1,
+					motion2,
+					motion1,
+					motion2,
 					scale2Action,
 					CallFuncN::create(CC_CALLBACK_1(GameLayer::unHit, this)),
 					scale3Action, 
@@ -193,26 +249,44 @@ void GameLayer::unHit(Ref* pSender)
 
 void GameLayer::toResultScene() {
 	GAMEDATA::getInstance()->setGameScore(gameScore);
+	GAMEDATA::getInstance()->setMouseNum(mouseNum);
+	GAMEDATA::getInstance()->setTotalMouseNum(GAMEDATA::getInstance()->getTotalMouseNum()+mouseNum);
 	Director::getInstance()->replaceScene(TransitionSlideInR::create(1,GameResultScene::create()));
 }
 
 void GameLayer::updateGameTime(float delta) {
+	if(needAddTime){
+		blackBg->setVisible(false);
+		needAddTime = false;
+		gameTime += 20;
+	}
 	if(!GAMESTATE::getInstance()->getGameOver() && !GAMESTATE::getInstance()->getGamePause() && gameTime > 0) {
 		gameTime--;
 	}
 	
-	if(!GAMESTATE::getInstance()->getGameOver() && gameTime <= 0) {
-		gameTime = 0;
-		GAMESTATE::getInstance()->setGameOver(true);
-
+	if(!GAMESTATE::getInstance()->getGameOver() && !GAMESTATE::getInstance()->getGamePause() && gameTime <= 0) {
 		Size visibleSize = Director::getInstance()->getVisibleSize();
-		FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("gameover"), 
-		50,Point(-100.0f, visibleSize.height/2));
-		this->addChild(leftStarMsg1, 100);
-		leftStarMsg1->floatInOut(0.4f, 0.0f, 1.0f,
-				[=](){
-					toResultScene();
-				});
+		if(hasShowPay){
+			gameTime = 0;
+			GAMESTATE::getInstance()->setGameOver(true);
+
+			FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("gameover"),
+			50,Point(-100.0f, visibleSize.height/2));
+			this->addChild(leftStarMsg1, 100);
+			leftStarMsg1->floatInOut(0.4f, 0.0f, 1.0f,
+					[=](){
+						toResultScene();
+					});
+		}else{
+			hasShowPay = true;
+			GAMESTATE::getInstance()->setGamePause(true);
+			auto nightComming = FadeTo::create(2.5f,255);
+			blackBg->runAction(Sequence::create(nightComming,CallFunc::create([=]{
+				#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+					CallAndroidMethod::getInstance()->pay(5);
+				#endif
+			}),NULL));
+		}
 		
 	}
 	menu->updateGameTime(gameTime);

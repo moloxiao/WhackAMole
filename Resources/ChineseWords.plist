@@ -64,6 +64,27 @@
   <key>aboutdesc9</key>
   <string>为地球贡献力量</string>
 
+  <key>killmole1</key>
+  <string>消灭了</string>
+
+  <key>killmole2</key>
+  <string>只地鼠</string>
+
+  <key>savefood1</key>
+  <string>抢救了</string>
+
+  <key>savefood2</key>
+  <string>公斤粮食</string>
+
+  <key>rank</key>
+  <string>排名</string>
+
+  <key>scoreup</key>
+  <string>分数再高</string>
+
+  <key>rankup</key>
+  <string>，排名就可上升到</string>
+
 
 </dict>
 

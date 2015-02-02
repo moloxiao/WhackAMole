@@ -10,6 +10,8 @@ public:
 	virtual bool init();
 	CREATE_FUNC(GamePause);
 	void returnGame();
+	void backMenu();
+	void pay();
 private:
 };
 #endif

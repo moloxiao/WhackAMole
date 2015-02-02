@@ -1,8 +1,9 @@
-ï»¿#include "TopMenu.h"
+#include "TopMenu.h"
 #include "GameLayer.h"
 #include "GameState.h"
 #include "GamePause.h"
 #include "Audio.h"
+#include "GAMEDATA.h"
 
 TopMenu* TopMenu::_instance = nullptr;
 TopMenu::TopMenu(){
@@ -23,30 +24,47 @@ bool TopMenu::init(){
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
-	// åˆå§‹åŒ–ç•Œé¢
-	// 1-åˆå§‹åŒ–å¾—åˆ†
-	curScore = Label::create(
-		"0",
-		"Verdana-Bold",50	
-		);
-	curScore->setPosition(visibleSize.width/2,visibleSize.height/2 +300);
+	auto power = Sprite::create("power.png");
+	power->setPosition(32,749);
+	power->setAnchorPoint(Point(0,0.5));
+	this->addChild(power);
+
+	auto powerNum = LabelAtlas::create(String::createWithFormat(":%d",GAMEDATA::getInstance()->getPowerValue())->_string,"num_power.png",
+			24,29,48);
+	powerNum->setAnchorPoint(Point(0,0.5));
+	powerNum->setPosition(62,749);
+	this->addChild(powerNum);
+
+	auto scoreTxt = Sprite::create("score_txt.png");
+	scoreTxt->setPosition(240,749);
+	this->addChild(scoreTxt);
+
+	// ³õÊ¼»¯½çÃæ
+	// 1-³õÊ¼»¯µÃ·Ö
+	curScore = LabelAtlas::create("0","num_game_score.png",25,32,48);
+	curScore->setAnchorPoint(Point(0.5,0.5));
+	curScore->setPosition(240,695);
 	this->addChild(curScore);
 
-	// 2-åˆå§‹åŒ–æ—¶é—´ labelTime
-	labelTime = Label::create(
-		"Time:" + cocos2d::String::createWithFormat("%d",GameLayer::DEFAULT_GAME_TIME)->_string,
-		"Verdana-Bold",30	
-		);
-	labelTime->setPosition(80,visibleSize.height/2 +350);
+	auto clock = Sprite::create("clock_icon.png");
+	clock->setPosition(32,695);
+	clock->setAnchorPoint(Point(0,0.5));
+	this->addChild(clock);
+
+	// 2-³õÊ¼»¯Ê±¼ä labelTime
+	labelTime = LabelAtlas::create("0","num_time.png",20,26,48);
+	labelTime->setPosition(82,695);
+	labelTime->setAnchorPoint(Point(0,0.5));
 	this->addChild(labelTime);
 
-	// 3-åˆå§‹åŒ–æš‚åœæŒ‰é”®
+	// 3-³õÊ¼»¯ÔÝÍ£°´¼ü
 	auto btnPause = MenuItemImage::create(
-		"pause.png",
-        "pause.png",
+		"pause_btn.png",
+        "pause_btn.png",
         CC_CALLBACK_0(TopMenu::pauseGame, this));
     auto menu = Menu::create(btnPause, NULL);
-    menu->setPosition(visibleSize.width - 50, visibleSize.height/2 +350);
+    menu->setPosition(428,739);
+    menu->setAnchorPoint(Point(1,0.5));
     this->addChild(menu, 1);
 	return true;
 }
@@ -62,7 +80,7 @@ void TopMenu::pauseGame() {
 
 
 void TopMenu::updateGameTime(int gameTime) {
-	labelTime->setString("Time:" + cocos2d::String::createWithFormat("%d",gameTime)->_string);
+	labelTime->setString(cocos2d::String::createWithFormat("%d",gameTime)->_string);
 }
 
 void TopMenu::updateGameScore(int gameTime) {

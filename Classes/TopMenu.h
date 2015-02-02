@@ -18,7 +18,7 @@ private:
 	static TopMenu* _instance;
 	TopMenu();
 
-	Label* curScore;
-	Label* labelTime;
+	LabelAtlas* curScore;
+	LabelAtlas* labelTime;
 };
 #endif

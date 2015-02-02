@@ -20,12 +20,16 @@ public:
     void unHit(Ref* pSender);	// 设置不可以敲打地鼠
 	void toResultScene();
 	void updateGameTime(float delta);
+public:
+	static bool needAddTime;
 private:
-
 	Vector<Sprite*> _mousesVector;
 	TopMenu* menu;
 	int gameTime;	// 游戏结束时间
 	int gameScore;
 	int gameScoreAdd;
+	int mouseNum;
+	bool hasShowPay;
+	Sprite* blackBg;
 };
 #endif

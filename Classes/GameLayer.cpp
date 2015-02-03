@@ -6,6 +6,7 @@
 #include "FloatWord.h"
 #include "Chinese.h"
 #include "CallAndroidMethod.h"
+#include "Power.h"
 
 bool GameLayer::needAddTime = false;
 bool GameLayer::needDoStartGame = false;
@@ -178,17 +179,16 @@ bool GameLayer::init(){
 		50,Point(-100.0f, visibleSize.height/2));
 	this->addChild(leftStarMsg1, 100);
 
-	if(playRounds == 1){
-		#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-			CallAndroidMethod::getInstance()->pay(1);
-		#endif
+	if(playRounds == 0){
+		this->schedule(schedule_selector(GameLayer::newPlayerPack), 2.0f,0,0);
 	}else if(powerValue == 0){
-		buyPower();
+		this->schedule(schedule_selector(GameLayer::buyPower), 2.0f,0,0);
 	}else{
 		leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
 					[=](){
 						GAMESTATE::getInstance()->setGamePause(false);
 						GAMEDATA::getInstance()->setPowerValue(powerValue-1);
+						Power::getInstance()->refreshPower();
 					});
 	}
 
@@ -202,15 +202,22 @@ bool GameLayer::init(){
 	return true;
 }
 
+void GameLayer::newPlayerPack(float dt){
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		CallAndroidMethod::getInstance()->pay(1);
+    #endif
+}
+
 void GameLayer::doStartGame(){
 	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
 				[=](){
 					GAMESTATE::getInstance()->setGamePause(false);
 					GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()-1);
+					Power::getInstance()->refreshPower();
 				});
 }
 
-void GameLayer::buyPower(){
+void GameLayer::buyPower(float dt){
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->pay(8);
     #endif

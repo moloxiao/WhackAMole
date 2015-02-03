@@ -22,7 +22,8 @@ public:
 	void toResultScene();
 	void updateGameTime(float delta);
 	void doStartGame();
-	void buyPower();
+	void buyPower(float dt);
+	void newPlayerPack(float dt);
 public:
 	static bool needAddTime;
 	static bool needDoStartGame;

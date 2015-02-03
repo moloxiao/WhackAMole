@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "TopMenu.h"
+#include "FloatWord.h"
 
 using namespace cocos2d;
 
@@ -20,8 +21,11 @@ public:
     void unHit(Ref* pSender);	// 设置不可以敲打地鼠
 	void toResultScene();
 	void updateGameTime(float delta);
+	void doStartGame();
+	void buyPower();
 public:
 	static bool needAddTime;
+	static bool needDoStartGame;
 private:
 	Vector<Sprite*> _mousesVector;
 	TopMenu* menu;
@@ -31,5 +35,6 @@ private:
 	int mouseNum;
 	bool hasShowPay;
 	Sprite* blackBg;
+	FloatWord* leftStarMsg1;
 };
 #endif

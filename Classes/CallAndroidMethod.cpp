@@ -30,9 +30,10 @@ void CallAndroidMethod::pay(int payPoint){
 		JniMethodInfo methodInfo;
 		bool isHave = JniHelper::getStaticMethodInfo(methodInfo,"org/cocos2dx/cpp/PayService","pay","(II)V");
 		jint pay_point = payPoint;
+		jint nightFightNums = GAMEDATA::getInstance()->getNightFightTimes();
 		if(isHave){
 			jobject jobj;
-			JniHelper::getEnv()->CallStaticVoidMethod(methodInfo.classID,methodInfo.methodID,pay_point,4);
+			JniHelper::getEnv()->CallStaticVoidMethod(methodInfo.classID,methodInfo.methodID,pay_point,nightFightNums);
 		}
 	#endif	
 }

@@ -77,8 +77,9 @@ bool TopMenu::init(){
 }
 
 void TopMenu::buyPower(){
+	GAMESTATE::getInstance()->setGamePause(true);
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		CallAndroidMethod::getInstance()->pay(2);
+		CallAndroidMethod::getInstance()->pay(7);
 	#endif
 }
 

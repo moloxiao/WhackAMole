@@ -35,8 +35,8 @@ bool TopMenu::init(){
 	this->addChild(powerNum);
 
 	auto btnBuyPower = MenuItemImage::create(
-		"power_buy_btn.png",
-		"power_buy_btn.png",
+		"power_buy_btn_normal.png",
+		"power_buy_btn_click.png",
 		CC_CALLBACK_0(TopMenu::buyPower, this));
 	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
 	buyPowerMenu->setPosition(135,749);

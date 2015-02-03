@@ -27,19 +27,16 @@ bool GameResultLayer::init(){
 	Sprite* starLeft = Sprite::create("star_lignt.png");
 	starLeft->setPosition(88,638);
 	starLeft->setAnchorPoint(Point(0,0.5));
-	starLeft->setScale(3.0f);
 	this->addChild(starLeft, 0);
 
 	Sprite* starMiddle = Sprite::create("star_lignt.png");
 	starMiddle->setPosition(240,663);
 	starMiddle->setAnchorPoint(Point(0.5,0.5));
-	starMiddle->setScale(3.0f);
 	this->addChild(starMiddle, 0);
 
 	Sprite* starRight = Sprite::create("star_lignt.png");
 	starRight->setPosition(392,638);
 	starRight->setAnchorPoint(Point(1,0.5));
-	starRight->setScale(3.0f);
 	this->addChild(starRight, 0);
 
 	int scoreNum = GAMEDATA::getInstance()->getGameScore();

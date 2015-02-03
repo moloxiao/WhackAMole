@@ -8,20 +8,18 @@
 #include "CallAndroidMethod.h"
 
 bool GameLayer::needAddTime = false;
+bool GameLayer::needDoStartGame = false;
 
 bool GameLayer::init(){
 	if(!Layer::init()){
 		return false;
 	}
 	needAddTime = false;
+	needDoStartGame = false;
 	hasShowPay = false;
-	GAMEDATA::getInstance()->setPlayRounds(GAMEDATA::getInstance()->getPlayRounds()+1);
+	int playRounds = GAMEDATA::getInstance()->getPlayRounds();
+	GAMEDATA::getInstance()->setPlayRounds(playRounds+1);
 	int powerValue = GAMEDATA::getInstance()->getPowerValue();
-	if(powerValue == 0){
-		//TODO 启购买体力值的支付
-		powerValue = 1;
-	}
-	GAMEDATA::getInstance()->setPowerValue(powerValue-1);
 	Audio::getInstance()->playBGM("Music/fightbg.mp3");
 
 	gameTime = DEFAULT_GAME_TIME;
@@ -102,7 +100,7 @@ bool GameLayer::init(){
 		_mousesVector.pushBack(Mouse3X1);
 	}
 
-	 this->schedule(schedule_selector(GameLayer::randomPopMoles), 1.0f);
+	this->schedule(schedule_selector(GameLayer::randomPopMoles), 1.0f);
 
 	 // 锟斤拷锟斤拷锟斤拷锟姐触锟斤拷锟斤拷锟斤拷锟斤拷
     auto listener = EventListenerTouchOneByOne::create();
@@ -176,14 +174,23 @@ bool GameLayer::init(){
 
 	
 	GAMESTATE::getInstance()->setGamePause(true);
-
-	FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("stargame"), 
+	leftStarMsg1 = FloatWord::create(ChineseWord("stargame"),
 		50,Point(-100.0f, visibleSize.height/2));
 	this->addChild(leftStarMsg1, 100);
-	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
-				[=](){
-					GAMESTATE::getInstance()->setGamePause(false);
-				});
+
+	if(playRounds == 1){
+		#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+			CallAndroidMethod::getInstance()->pay(1);
+		#endif
+	}else if(powerValue == 0){
+		buyPower();
+	}else{
+		leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
+					[=](){
+						GAMESTATE::getInstance()->setGamePause(false);
+						GAMEDATA::getInstance()->setPowerValue(powerValue-1);
+					});
+	}
 
 	blackBg = Sprite::create("black.png");
 	blackBg->setPosition(240,400);
@@ -193,6 +200,20 @@ bool GameLayer::init(){
 	this->addChild(blackBg);
 
 	return true;
+}
+
+void GameLayer::doStartGame(){
+	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
+				[=](){
+					GAMESTATE::getInstance()->setGamePause(false);
+					GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()-1);
+				});
+}
+
+void GameLayer::buyPower(){
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		CallAndroidMethod::getInstance()->pay(8);
+    #endif
 }
 
 // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
@@ -255,6 +276,11 @@ void GameLayer::toResultScene() {
 }
 
 void GameLayer::updateGameTime(float delta) {
+	if(needDoStartGame){
+		needDoStartGame = false;
+		doStartGame();
+		return;
+	}
 	if(needAddTime){
 		blackBg->setVisible(false);
 		needAddTime = false;
@@ -282,9 +308,15 @@ void GameLayer::updateGameTime(float delta) {
 			GAMESTATE::getInstance()->setGamePause(true);
 			auto nightComming = FadeTo::create(2.5f,255);
 			blackBg->runAction(Sequence::create(nightComming,CallFunc::create([=]{
-				#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-					CallAndroidMethod::getInstance()->pay(3);
-				#endif
+				if(GAMEDATA::getInstance()->getNightFightTimes() > 0){
+					#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+						CallAndroidMethod::getInstance()->pay(5);
+					#endif
+				}else{
+					#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+						CallAndroidMethod::getInstance()->pay(3);
+					#endif
+				}
 			}),NULL));
 		}
 		

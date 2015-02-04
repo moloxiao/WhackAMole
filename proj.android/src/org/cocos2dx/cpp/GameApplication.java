@@ -67,7 +67,7 @@ public class GameApplication extends Application{
 					Log.e(TAG, "avos init fail ...");
 				}
 			}
-		}, "ackslb3ghbj3l4nsur9yei6xys5euaj5jjb256mr5hqpf0ye", "011v42s6phgb13fb4mgeu1p7o09ozmjxjcygbelyekmr0xxr", DeviceInfo.version, AppActivity.class);
+		}, "93qxll9pvo407gi6tt2iqdz8qledxeymkdd53yugaj1wmzp5", "001lmcvsy7hflpifxxhyhtdz5lnsua0iapnd1mxxr0z2pk04", DeviceInfo.version, AppActivity.class);
 	}
 	
 	private void setLayout() {

@@ -174,12 +174,9 @@ bool GameLayer::init() {
 			kRepeatForever, 0);
 
 	GAMESTATE::getInstance()->setGamePause(true);
-//	leftStarMsg1 = FloatWord::create(ChineseWord("stargame"), 50,
-//			Point(-100.0f, visibleSize.height / 2));
-//	this->addChild(leftStarMsg1, 100);
-	startGame =Sprite::create("game_start.png");
-	startGame->setPosition(-200,400);
-	this->addChild(startGame);
+	flowTitle = Sprite::create("game_start.png");
+	flowTitle->setPosition(-200, 400);
+	this->addChild(flowTitle);
 
 	if (playRounds == 0) {
 		this->schedule(schedule_selector(GameLayer::newPlayerPack), 2.0f, 0, 0);
@@ -206,24 +203,22 @@ void GameLayer::newPlayerPack(float dt) {
 }
 
 void GameLayer::doStartGame() {
-//	leftStarMsg1->floatInOut(0.4f, 1.0f, 1.0f,
-//			[=]() {
-//				GAMESTATE::getInstance()->setGamePause(false);
-//				GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()-1);
-//				Power::getInstance()->refreshPower();
-//			});
-	    auto moveIn = MoveTo::create(0.4,Point(240,400));
-	    auto moveOut = MoveTo::create(0.4,Point(680,400));
-		CallFunc* removeC = CallFunc::create([this](){
-			startGame->removeFromParentAndCleanup(true);
-		});
-		auto start=CallFunc::create([this](){
-			GAMESTATE::getInstance()->setGamePause(false);
-							GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()-1);
-							Power::getInstance()->refreshPower();
-		});
-		Sequence* action = Sequence::create(DelayTime::create(0.5f), moveIn,DelayTime::create(1.0f),moveOut,removeC,start,NULL);
-		startGame->runAction(action);
+	this->flowSprite([=]() {
+				GAMESTATE::getInstance()->setGamePause(false);
+				GAMEDATA::getInstance()->setPowerValue(GAMEDATA::getInstance()->getPowerValue()-1);
+				Power::getInstance()->refreshPower();
+			});
+}
+void GameLayer::flowSprite(std::function<void()> callback) {
+	auto moveIn = MoveTo::create(0.4, Point(240, 400));
+	auto moveOut = MoveTo::create(0.4, Point(680, 400));
+	CallFunc* removeC = CallFunc::create([this]() {
+		flowTitle->removeFromParentAndCleanup(true);
+	});
+	Sequence* action = Sequence::create(DelayTime::create(0.5f), moveIn,
+			DelayTime::create(1.0f), moveOut, removeC,
+			CallFunc::create(callback), NULL);
+	flowTitle->runAction(action);
 }
 
 void GameLayer::buyPower(float dt) {
@@ -313,11 +308,10 @@ void GameLayer::updateGameTime(float delta) {
 		if (hasShowPay) {
 			gameTime = 0;
 			GAMESTATE::getInstance()->setGameOver(true);
-
-			FloatWord* leftStarMsg1 = FloatWord::create(ChineseWord("gameover"),
-					50, Point(-100.0f, visibleSize.height / 2));
-			this->addChild(leftStarMsg1, 100);
-			leftStarMsg1->floatInOut(0.4f, 0.0f, 1.0f, [=]() {
+			flowTitle = Sprite::create("game_over.png");
+			flowTitle->setPosition(-200, 400);
+			this->addChild(flowTitle);
+			this->flowSprite([=](){
 				toResultScene();
 			});
 		} else {

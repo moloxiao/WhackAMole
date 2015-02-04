@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "TopMenu.h"
-#include "FloatWord.h"
 
 using namespace cocos2d;
 
@@ -24,6 +23,7 @@ public:
 	void doStartGame();
 	void buyPower(float dt);
 	void newPlayerPack(float dt);
+	void flowSprite(std::function<void()> callback);
 public:
 	static bool needAddTime;
 	static bool needDoStartGame;
@@ -36,7 +36,6 @@ private:
 	int mouseNum;
 	bool hasShowPay;
 	Sprite* blackBg;
-	Sprite* startGame;
-	FloatWord* leftStarMsg1;
+	Sprite* flowTitle;
 };
 #endif

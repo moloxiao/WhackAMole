@@ -36,6 +36,7 @@ private:
 	int mouseNum;
 	bool hasShowPay;
 	Sprite* blackBg;
+	Sprite* startGame;
 	FloatWord* leftStarMsg1;
 };
 #endif

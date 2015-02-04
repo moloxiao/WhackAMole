@@ -42,7 +42,7 @@
 	            android:layout_centerHorizontal="true"
 	            android:layout_alignParentTop="true"
 	            android:layout_marginTop="63dp"
-	            android:background="@drawable/pay_tip_goods_1" />
+	            android:background="@drawable/pay_tip_goods_5" />
 	        
 	        <ImageView
 	            android:id="@+id/revive_num"
@@ -50,10 +50,10 @@
 	            android:layout_height="18dp"	            
 	            android:layout_alignParentTop="true"
 	            android:layout_alignParentLeft="true"
-	            android:layout_marginTop="58dp"
-	            android:layout_marginLeft="110dp"
+	            android:layout_marginTop="75dp"
+	            android:layout_marginLeft="98dp"
 	            android:visibility="invisible"
-	            android:background="@drawable/night_fight_num_1" />
+	            android:background="@drawable/night_fight_num_8" />
 			
 	         <ImageButton
 		        android:id="@+id/pay_confirm"

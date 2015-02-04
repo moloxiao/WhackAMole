@@ -36,8 +36,8 @@ bool MenuLayer::init(){
 	this->addChild(powerNum);
 
 	auto btnBuyPower = MenuItemImage::create(
-		"power_buy_btn.png",
-		"power_buy_btn.png",
+		"power_buy_btn_normal.png",
+		"power_buy_btn_click.png",
 		CC_CALLBACK_0(MenuLayer::buyPower, this));
 	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
 	buyPowerMenu->setPosition(135,749);
@@ -108,7 +108,7 @@ bool MenuLayer::init(){
 			musicTog->setSelectedIndex(1);
 		}
 	auto musicMenu = Menu::create(musicTog,NULL);
-	musicMenu->setPosition(349,760);
+	musicMenu->setPosition(329,745);
 	MenuItemImage* soundEffectOn = MenuItemImage::create("sound_effect_open.png","sound_effect_open.png");
 	MenuItemImage* soundEffectOff = MenuItemImage::create("sound_effect_close.png","sound_effect_close.png");
 	MenuItemToggle* soundEffectTog = MenuItemToggle::createWithTarget(this,menu_selector(MenuLayer::getSoudState),soundEffectOn,soundEffectOff,NULL);
@@ -121,35 +121,58 @@ bool MenuLayer::init(){
 			soundEffectTog->setSelectedIndex(1);
 		}
 	auto soundEffectMenu = Menu::create(soundEffectTog,NULL);
-	soundEffectMenu->setPosition(427,760);
+	soundEffectMenu->setPosition(427,745);
 	this->addChild(musicMenu,2);
 	this->addChild(soundEffectMenu,2);
 
-	quitBg = Sprite::create("quit_bg.png");
-	quitBg->setPosition(240,116);
+	quitBg = Sprite::create("sign_in_bg.png");
+	quitBg->setPosition(244,400);
 	quitBg->setVisible(false);
 	this->addChild(quitBg,2);
 
+	quitTitle = Sprite::create("quit_title.png");
+	quitTitle->setPosition(244,566);
+	quitTitle->setVisible(false);
+	this->addChild(quitTitle,2);
+
 	quitDesc = Sprite::create("quit_desc.png");
-	quitDesc->setPosition(240,144);
+	quitDesc->setPosition(244,412);
 	quitDesc->setVisible(false);
 	this->addChild(quitDesc,2);
 
 	MenuItemImage* confirmBtn = MenuItemImage::create(
-		"quit_confirm_up.png","quit_confirm_down.png",CC_CALLBACK_0(MenuLayer::quit,this)
+		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(MenuLayer::quit,this)
 		);
 	confirmMenu = Menu::create(confirmBtn, NULL);
-	confirmMenu->setPosition(316,71);
+	confirmMenu->setPosition(338,283);
 	confirmMenu->setVisible(false);
 	this->addChild(confirmMenu,2);
 
+	confirmTxt = Sprite::create("confirm_txt.png");
+	confirmTxt->setPosition(338,283);
+	confirmTxt->setVisible(false);
+	this->addChild(confirmTxt,2);
+
 	MenuItemImage* cancelBtn = MenuItemImage::create(
-		"quit_cancel_up.png","quit_cancel_down.png",CC_CALLBACK_0(MenuLayer::cancel,this)
+		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(MenuLayer::cancel,this)
 		);
 	cancelMenu = Menu::create(cancelBtn, NULL);
-	cancelMenu->setPosition(164,71);
+	cancelMenu->setPosition(142,283);
 	cancelMenu->setVisible(false);
 	this->addChild(cancelMenu,2);
+
+	MenuItemImage* closeBtn = MenuItemImage::create(
+		"close_btn_normal.png","close_btn_click.png",CC_CALLBACK_0(MenuLayer::cancel,this)
+		);
+	closeMenu = Menu::create(closeBtn, NULL);
+	closeMenu->setPosition(430,587);
+	closeMenu->setVisible(false);
+	this->addChild(closeMenu,2);
+
+	cancelTxt = Sprite::create("cancel_txt.png");
+	cancelTxt->setPosition(142,283);
+	cancelTxt->setVisible(false);
+	this->addChild(cancelTxt,2);
 
 	this->setKeypadEnabled(true);
 	auto listener = EventListenerKeyboard::create();
@@ -185,74 +208,68 @@ bool MenuLayer::init(){
 	aboutBg->setPosition(240,400);
 	this->addChild(aboutBg,3);
 
-	smallTitle11 = Label::create(ChineseWord("abouttitle11"),"Arial",36);
-	smallTitle11->setPosition(60,718);
-	smallTitle11->setAnchorPoint(Point(0,0.5));
-	this->addChild(smallTitle11,3);
+	aboutTitle1 = Sprite::create("about_title_1.png");
+	aboutTitle1->setPosition(80,710);
+	aboutTitle1->setAnchorPoint(Point(0,0.5));
+	this->addChild(aboutTitle1,3);
 
-	int totalScore = GAMEDATA::getInstance()->getTotalMouseNum();
+	int mouse = GAMEDATA::getInstance()->getTotalMouseNum();
 
-	smallTitle12 = Label::create(String::createWithFormat("%d",
-			totalScore)->_string+ChineseWord("abouttitle12"),"Arial",36);
-	smallTitle12->setPosition(60,668);
-	smallTitle12->setAnchorPoint(Point(0,0.5));
-	this->addChild(smallTitle12,3);
+	mouseNum = LabelAtlas::create(String::createWithFormat("%d",mouse)->_string,"num_about.png",16,23,48);
+	mouseNum->setAnchorPoint(Point(0,0.5));
+	mouseNum->setPosition(80,670);
+	this->addChild(mouseNum,3);
 
-	smallTitle21 = Label::create(ChineseWord("abouttitle21"),"Arial",36);
-	smallTitle21->setPosition(60,618);
-	smallTitle21->setAnchorPoint(Point(0,0.5));
-	this->addChild(smallTitle21,3);
+	aboutTitle2 = Sprite::create("about_title_2.png");
+	aboutTitle2->setAnchorPoint(Point(0,0.5));
+	if(mouse<10){
+		aboutTitle2->setPosition(96,670);
+	}else if(mouse<100){
+		aboutTitle2->setPosition(112,670);
+	}else if(mouse<1000){
+		aboutTitle2->setPosition(128,670);
+	}else if(mouse<10000){
+		aboutTitle2->setPosition(144,670);
+	}else if(mouse<100000){
+		aboutTitle2->setPosition(160,670);
+	}else if(mouse<1000000){
+		aboutTitle2->setPosition(172,670);
+	}
+	this->addChild(aboutTitle2,3);
 
-	smallTitle22 = Label::create(String::createWithFormat("%d",
-			totalScore*1000)->_string+ChineseWord("abouttitle22"),"Arial",36);
-	smallTitle22->setPosition(60,568);
-	smallTitle22->setAnchorPoint(Point(0,0.5));
-	this->addChild(smallTitle22,3);
+	aboutTitle3 = Sprite::create("about_title_3.png");
+	aboutTitle3->setPosition(80,630);
+	aboutTitle3->setAnchorPoint(Point(0,0.5));
+	this->addChild(aboutTitle3,3);
 
-	titleDesc1 = Label::create(ChineseWord("aboutdesc1"),"Arial",24);
-	titleDesc1->setPosition(60,478);
-	titleDesc1->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc1,3);
+	miceNum = LabelAtlas::create(String::createWithFormat("%d",mouse*1000)->_string,"num_about.png",16,23,48);
+	miceNum->setAnchorPoint(Point(0,0.5));
+	miceNum->setPosition(80,590);
+	this->addChild(miceNum,3);
 
-	titleDesc2 = Label::create(ChineseWord("aboutdesc2"),"Arial",24);
-	titleDesc2->setPosition(60,438);
-	titleDesc2->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc2,3);
+	aboutTitle4 = Sprite::create("about_title_4.png");
+	if(mouse == 0){
+		aboutTitle4->setPosition(102,590);
+	}else if(mouse<10){
+		aboutTitle4->setPosition(150,590);
+	}else if(mouse<100){
+		aboutTitle4->setPosition(166,590);
+	}else if(mouse<1000){
+		aboutTitle4->setPosition(178,590);
+	}else if(mouse<10000){
+		aboutTitle4->setPosition(194,590);
+	}else if(mouse<100000){
+		aboutTitle4->setPosition(210,590);
+	}else if(mouse<1000000){
+		aboutTitle4->setPosition(226,590);
+	}
+	aboutTitle4->setAnchorPoint(Point(0,0.5));
+	this->addChild(aboutTitle4,3);
 
-	titleDesc3 = Label::create(ChineseWord("aboutdesc3"),"Arial",24);
-	titleDesc3->setPosition(60,398);
-	titleDesc3->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc3,3);
-
-	titleDesc4 = Label::create(ChineseWord("aboutdesc4"),"Arial",24);
-	titleDesc4->setPosition(60,358);
-	titleDesc4->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc4,3);
-
-	titleDesc5 = Label::create(ChineseWord("aboutdesc5"),"Arial",24);
-	titleDesc5->setPosition(60,318);
-	titleDesc5->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc5,3);
-
-	titleDesc6 = Label::create(ChineseWord("aboutdesc6"),"Arial",24);
-	titleDesc6->setPosition(60,278);
-	titleDesc6->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc6,3);
-
-	titleDesc7 = Label::create(ChineseWord("aboutdesc7"),"Arial",24);
-	titleDesc7->setPosition(60,238);
-	titleDesc7->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc7,3);
-
-	titleDesc8 = Label::create(ChineseWord("aboutdesc8"),"Arial",24);
-	titleDesc8->setPosition(60,198);
-	titleDesc8->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc8,3);
-
-	titleDesc9 = Label::create(ChineseWord("aboutdesc9"),"Arial",24);
-	titleDesc9->setPosition(60,158);
-	titleDesc9->setAnchorPoint(Point(0,0.5));
-	this->addChild(titleDesc9,3);
+	aboutDesc = Sprite::create("about_desc.png");
+	aboutDesc->setPosition(80,352);
+	aboutDesc->setAnchorPoint(Point(0,0.5));
+	this->addChild(aboutDesc,3);
 
 	auto contiBtn = MenuItemImage::create(
 		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(MenuLayer::startGameT,this)
@@ -263,7 +280,7 @@ bool MenuLayer::init(){
 	this->addChild(contiMenu,3);
 
 	startTxt = Sprite::create("start_game_txt.png");
-	startTxt->setPosition(429,90);
+	startTxt->setPosition(449,90);
 	startTxt->setAnchorPoint(Point(1,0.5));
 	this->addChild(startTxt,3);
 
@@ -276,7 +293,7 @@ bool MenuLayer::init(){
 	this->addChild(backMenu,3);
 
 	backTxt = Sprite::create("back_menu_txt.png");
-	backTxt->setPosition(47,90);
+	backTxt->setPosition(39,90);
 	backTxt->setAnchorPoint(Point(0,0.5));
 	this->addChild(backTxt,3);
 	setAboutVisible(false);
@@ -303,19 +320,13 @@ void MenuLayer::startGameT(){
 
 void MenuLayer::setAboutVisible(bool visible){
 	aboutBg->setVisible(visible);
-	smallTitle11->setVisible(visible);
-	smallTitle12->setVisible(visible);
-	smallTitle21->setVisible(visible);
-	smallTitle22->setVisible(visible);
-	titleDesc1->setVisible(visible);
-	titleDesc2->setVisible(visible);
-	titleDesc3->setVisible(visible);
-	titleDesc4->setVisible(visible);
-	titleDesc5->setVisible(visible);
-	titleDesc6->setVisible(visible);
-	titleDesc7->setVisible(visible);
-	titleDesc8->setVisible(visible);
-	titleDesc9->setVisible(visible);
+	aboutTitle1->setVisible(visible);
+	aboutTitle2->setVisible(visible);
+	aboutTitle3->setVisible(visible);
+	aboutTitle4->setVisible(visible);
+	mouseNum->setVisible(visible);
+	miceNum->setVisible(visible);
+	aboutDesc->setVisible(visible);
 	backMenu->setVisible(visible);
 	contiMenu->setVisible(visible);
 	startTxt->setVisible(visible);
@@ -349,12 +360,20 @@ void MenuLayer::showQuit(){
 		quitDesc->setVisible(true);
 		confirmMenu->setVisible(true);
 		cancelMenu->setVisible(true);
+		quitTitle->setVisible(true);
+		confirmTxt->setVisible(true);
+		cancelTxt->setVisible(true);
+		closeMenu->setVisible(true);
 	}else{
 		if(hasShowQuitPay){
 			quitBg->setVisible(true);
 			quitDesc->setVisible(true);
 			confirmMenu->setVisible(true);
 			cancelMenu->setVisible(true);
+			quitTitle->setVisible(true);
+			confirmTxt->setVisible(true);
+			cancelTxt->setVisible(true);
+			closeMenu->setVisible(true);
 		}else{
 			hasShowQuitPay = true;
 			#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -378,6 +397,10 @@ void MenuLayer::cancel(){
 	quitDesc->setVisible(false);
 	confirmMenu->setVisible(false);
 	cancelMenu->setVisible(false);
+	quitTitle->setVisible(false);
+	confirmTxt->setVisible(false);
+	cancelTxt->setVisible(false);
+	closeMenu->setVisible(false);
 }
 
 void MenuLayer::autoStartGame(float dt){

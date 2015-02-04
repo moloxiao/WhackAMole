@@ -48,7 +48,7 @@ bool TopMenu::init(){
 
 	// 初始化界面
 	// 1-初始化得分
-	curScore = LabelAtlas::create("0","num_game_score.png",25,32,48);
+	curScore = LabelAtlas::create("0","num_game_score.png",29,39,48);
 	curScore->setAnchorPoint(Point(0.5,0.5));
 	curScore->setPosition(240,695);
 	this->addChild(curScore);
@@ -66,8 +66,8 @@ bool TopMenu::init(){
 
 	// 3-初始化暂停按键
 	auto btnPause = MenuItemImage::create(
-		"pause_btn.png",
-        "pause_btn.png",
+		"pause_btn_normal.png",
+        "pause_btn_click.png",
         CC_CALLBACK_0(TopMenu::pauseGame, this));
     auto menu = Menu::create(btnPause, NULL);
     menu->setPosition(428,739);

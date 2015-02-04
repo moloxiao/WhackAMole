@@ -29,4 +29,9 @@ public class SignInService {
 	public static void sign(){
 		SignManager.sign(activity);
 	}
+	
+	public static void cleanSign(){
+		Log.i("MCH",">>>>>>>>>>>clean sign");
+		SignManager.cleanSignDays(activity);
+	}
 }

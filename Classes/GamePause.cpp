@@ -42,11 +42,19 @@ bool GamePause::init(){
 //	bg->setContentSize(440,300);
 //	this->addChild(bg);
 
+	auto bg = Sprite::create("sign_in_bg.png");
+	bg->setPosition(244,400);
+	this->addChild(bg);
+
+	auto title = Sprite::create("pause_title.png");
+	title->setPosition(244,566);
+	this->addChild(title);
+
 	auto propsBtn = MenuItemImage::create(
 		"props.png","props.png",CC_CALLBACK_0(GamePause::pay,this)
 		);
 	auto propsMenu = Menu::create(propsBtn, NULL);
-	propsMenu->setPosition(240,420);
+	propsMenu->setPosition(240,419);
 	propsMenu->setAnchorPoint(Point(0.5,0.5));
 	this->addChild(propsMenu);
 
@@ -54,12 +62,12 @@ bool GamePause::init(){
 		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(GamePause::returnGame,this)
 		);
 	auto contiMenu = Menu::create(contiBtn, NULL);
-	contiMenu->setPosition(348,238);
+	contiMenu->setPosition(346,275);
 	contiMenu->setAnchorPoint(Point(1,0.5));
 	this->addChild(contiMenu);
 
 	auto contiTxt = Sprite::create("conti_game_txt.png");
-	contiTxt->setPosition(429,238);
+	contiTxt->setPosition(438,275);
 	contiTxt->setAnchorPoint(Point(1,0.5));
 	this->addChild(contiTxt);
 
@@ -67,12 +75,12 @@ bool GamePause::init(){
 		"btn_bg_normal.png","btn_bg_click.png",CC_CALLBACK_0(GamePause::backMenu,this)
 		);
 	auto backMenu = Menu::create(backBtn, NULL);
-	backMenu->setPosition(132,238);
+	backMenu->setPosition(134,275);
 	backMenu->setAnchorPoint(Point(0,0.5));
 	this->addChild(backMenu);
 
 	auto backTxt = Sprite::create("back_menu_txt.png");
-	backTxt->setPosition(47,238);
+	backTxt->setPosition(42,275);
 	backTxt->setAnchorPoint(Point(0,0.5));
 	this->addChild(backTxt);
 

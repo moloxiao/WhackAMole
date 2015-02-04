@@ -15,6 +15,7 @@ public:
 	bool notSignToday();
 	int getCurrentSignDayas();
 	void sign();
+	void cleanSign();
 	void markPersonInfo(const char tag1,const char tag2);
 	static CallAndroidMethod* getInstance();
 private:

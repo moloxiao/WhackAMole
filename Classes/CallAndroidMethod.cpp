@@ -106,3 +106,15 @@ void CallAndroidMethod::sign(){
 		}
 	#endif
 }
+
+void CallAndroidMethod::cleanSign(){
+	CCLOG(">>>>>>>>>>>>>>sign");
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	    CCLOG("android platform");
+		JniMethodInfo methodInfo;
+		bool isHave = JniHelper::getStaticMethodInfo(methodInfo,"org/cocos2dx/cpp/SignInService","cleanSign","()V");
+		if(isHave){
+			JniHelper::getEnv()->CallStaticVoidMethod(methodInfo.classID,methodInfo.methodID);
+		}
+	#endif
+}

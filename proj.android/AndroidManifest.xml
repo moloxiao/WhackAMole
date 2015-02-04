@@ -186,7 +186,7 @@
          <!-- mm破解版结束-->         
          <!-- 本地提醒 -->
          <receiver android:name="com.tallbigup.android.gds.nativenotify.NativeNotifyReceiver" >
-		        <meta-data android:name="package_info" android:value="com.tallbigup.star" />
+		        <meta-data android:name="package_info" android:value="com.tallbigup.whackamole" />
 		        <meta-data android:name="launch_info" android:value="org.cocos2dx.cpp.AppActivity" />
 		        <meta-data android:name="push_icon" android:resource="@drawable/push_logo" />
 		</receiver>         

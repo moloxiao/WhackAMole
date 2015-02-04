@@ -106,6 +106,9 @@ bool GameLayer::init() {
 	// 锟斤拷锟斤拷锟斤拷锟姐触锟斤拷锟斤拷锟斤拷锟斤拷
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [=](Touch *touch, Event *unused_event) {
+			if(gameTime == 0){
+				return true;
+			}
 		// 锟斤拷touch锟斤拷锟斤拷转锟斤拷锟斤拷Node锟斤拷锟斤拷
 			Point touchLocation = this->convertTouchToNodeSpace(touch);
 
@@ -128,19 +131,19 @@ bool GameLayer::init() {
 					mallet->runAction(Sequence::create(malletAnimation, CallFunc::create([=] {
 												Audio::getInstance()->playSound("Music/normalhit.ogg");
 												// 锟斤拷锟襟被达拷锟叫后播凤拷锟斤拷锟斤拷效锟斤拷
-//                    auto aswoon = ParticleSystemQuad::create("aswoon.plist");
-//                    aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
-//                    this->addChild(aswoon);
-												auto beHit = Sprite::create("mouse_3.png");
-												beHit->setPosition(mole->getPosition().x, mole->getPosition().y);
-												this->addChild(beHit);
-												auto beHitAction = ScaleTo::create(0.4f,1.0f);
-												beHit->runAction(Sequence::create(beHitAction,CallFunc::create([=] {
-																			this->removeChild(beHit);
-																		}),NULL));
-												// 删锟斤拷木锟�
-												this->removeChild(mallet);
-											}), NULL));
+                    auto aswoon = ParticleSystemQuad::create("aswoon.plist");
+                    aswoon->setPosition(mole->getPosition().x, mole->getPosition().y);
+                    this->addChild(aswoon);
+					auto beHit = Sprite::create("mouse_3.png");
+					beHit->setPosition(mole->getPosition().x, mole->getPosition().y);
+					this->addChild(beHit);
+					auto beHitAction = ScaleTo::create(0.1f,1.0f);
+					beHit->runAction(Sequence::create(beHitAction,CallFunc::create([=] {
+												this->removeChild(beHit);
+											}),NULL));
+								// 删锟斤拷木锟�
+								this->removeChild(mallet);
+							}), NULL));
 
 					// 锟斤拷锟襟被达拷锟叫猴拷锟睫革拷tag锟斤拷锟轿�0锟斤拷锟斤拷示锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷锟叫ｏ拷锟斤拷锟斤拷锟截革拷锟矫达拷
 					mole->setTag(0);
@@ -230,7 +233,7 @@ void GameLayer::buyPower(float dt) {
 // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 void GameLayer::randomPopMoles(float delta) {
 	if (GAMESTATE::getInstance()->getGamePause()
-			|| GAMESTATE::getInstance()->getGameOver()) {
+			|| GAMESTATE::getInstance()->getGameOver() || gameTime==0) {
 		return;
 	}
 	for (auto mole : _mousesVector) {

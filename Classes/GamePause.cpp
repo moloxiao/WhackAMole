@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "MenuScene.h"
 #include "CallAndroidMethod.h"
+#include "Audio.h"
 
 bool GamePause::init(){
 	if(!Layer::init()){
@@ -88,17 +89,20 @@ bool GamePause::init(){
 }
 
 void GamePause::returnGame() {
+	Audio::getInstance()->playSound("Music/click.ogg");
 	this->removeFromParentAndCleanup(true);
 	GAMESTATE::getInstance()->setGamePause(false);
 }
 
 void GamePause::backMenu(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	GAMESTATE::getInstance()->setGamePause(false);
 	GAMESTATE::getInstance()->setGameOver(true);
 	Director::getInstance()->replaceScene(TransitionFade::create(1,MenuScene::create()));
 }
 
 void GamePause::pay(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->pay(4);
 	#endif

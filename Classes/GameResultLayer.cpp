@@ -250,6 +250,7 @@ void GameResultLayer::update(float delta){
 		}
 		if(animTime > 5){
 			if(!hasShowScore){
+				Audio::getInstance()->playSound("Music/score.ogg");
 				hasShowScore = true;
 				score->runAction(MoveTo::create(0.3f,Point(240,560)));
 			}
@@ -425,6 +426,7 @@ void GameResultLayer::contiGame(){
 	if(!canClick){
 		return;
 	}
+	Audio::getInstance()->playSound("Music/click.ogg");
 	Director::getInstance()->replaceScene(TransitionSlideInL::create(1,GameScene::create()));
 }
 
@@ -432,6 +434,7 @@ void GameResultLayer::back(){
 	if(!canClick){
 		return;
 	}
+	Audio::getInstance()->playSound("Music/click.ogg");
 	Director::getInstance()->replaceScene(TransitionFade::create(1,MenuScene::create()));
 }
 

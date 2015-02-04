@@ -1,6 +1,7 @@
 #include "About.h"
 #include "Chinese.h"
 #include "GameData.h"
+#include "Audio.h"
 
 About* About::_instance = nullptr;
 About::About(){
@@ -103,6 +104,7 @@ bool About::hideSelf(Touch* touch,Event* event){
 	if(!isVisible()){
 		return false;
 	}
+	Audio::getInstance()->playSound("Music/click.ogg");
 	this->setVisible(false);
 	this->removeFromParentAndCleanup(true);
 	return true;

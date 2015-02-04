@@ -39,7 +39,7 @@ bool TopMenu::init(){
 		"power_buy_btn_click.png",
 		CC_CALLBACK_0(TopMenu::buyPower, this));
 	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
-	buyPowerMenu->setPosition(135,749);
+	buyPowerMenu->setPosition(155,749);
 	this->addChild(buyPowerMenu);
 
 	auto scoreTxt = Sprite::create("score_txt.png");
@@ -77,6 +77,7 @@ bool TopMenu::init(){
 }
 
 void TopMenu::buyPower(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	GAMESTATE::getInstance()->setGamePause(true);
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->pay(7);
@@ -84,6 +85,7 @@ void TopMenu::buyPower(){
 }
 
 void TopMenu::pauseGame() {
+	Audio::getInstance()->playSound("Music/click.ogg");
 	Audio::getInstance()->playSound("Music/click.ogg");
 	if(!GAMESTATE::getInstance()->getGamePause()) {
 		GAMESTATE::getInstance()->setGamePause(true);

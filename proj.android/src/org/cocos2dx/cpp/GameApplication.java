@@ -36,7 +36,7 @@ public class GameApplication extends Application{
 	}
 	
 	public void init(){		
-		GamePay.getInstance().init(getApplicationContext(), GamePay.MM_POJIE_PAY_TYPE, false, GamePay.SKY_PAY_TYPE, 7005194, 9970, "羊年消星星");
+		GamePay.getInstance().init(getApplicationContext(), GamePay.MM_POJIE_PAY_TYPE, false, GamePay.SKY_PAY_TYPE, 7005329, 9969, "开心打地鼠");
 		
 		TbuCloud.initCloud(getApplicationContext(), new TbuCallback() {
 			

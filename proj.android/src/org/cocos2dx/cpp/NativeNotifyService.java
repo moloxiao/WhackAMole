@@ -14,8 +14,7 @@ public class NativeNotifyService {
 	}
 	
 	public static void startNativeNotify(){
-		Log.i("MCH",">>>>>startNativeNotify");
 		NotifyManager.setNextNotification(activity, 
-				1000*60, "打地鼠", "快来消灭老鼠，拯救地球粮食啦");
+				1000*60*60*12, "打地鼠", "快来消灭老鼠，抢救地球粮食啦");
 	}
 }

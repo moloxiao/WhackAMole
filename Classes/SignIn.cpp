@@ -4,6 +4,7 @@
 #include "GameData.h"
 #include "GameScene.h"
 #include "Power.h"
+#include "Audio.h"
 
 SignIn* SignIn::_instance = nullptr;
 SignIn::SignIn(){
@@ -256,6 +257,7 @@ bool SignIn::init(){
 }
 
 void SignIn::hideSelf(){
+	Audio::getInstance()->playSound("Music/click.ogg");
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 		CallAndroidMethod::getInstance()->sign();
 		if(signDay == 6){

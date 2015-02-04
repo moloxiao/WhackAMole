@@ -19,6 +19,9 @@ bool GameResultLayer::init(){
 	hasShowScoreUp = false;
 	hasShowkillMole = false;
 	hasShowSaveFood = false;
+	showStar1 = false;
+	showStar2 = false;
+	showStar3 = false;
 	canClick = false;
 	Audio::getInstance()->playBGM("Music/bg.mp3");
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -47,140 +50,161 @@ bool GameResultLayer::init(){
 	starRightShandow->setAnchorPoint(Point(1,0.5));
 	this->addChild(starRightShandow, 0);
 
-	Sprite* starLeft = Sprite::create("star_lignt.png");
+	starLeft = Sprite::create("star_lignt.png");
 	starLeft->setPosition(70,670);
 	starLeft->setAnchorPoint(Point(0,0.5));
 	this->addChild(starLeft, 0);
+	starLeft->setScale(3);
+	starLeft->setVisible(false);
 
-	Sprite* starMiddle = Sprite::create("star_lignt.png");
+	starMiddle = Sprite::create("star_lignt.png");
 	starMiddle->setPosition(240,695);
 	starMiddle->setAnchorPoint(Point(0.5,0.5));
 	this->addChild(starMiddle, 0);
+	starMiddle->setScale(3);
+	starMiddle->setVisible(false);
 
-	Sprite* starRight = Sprite::create("star_lignt.png");
+	starRight = Sprite::create("star_lignt.png");
 	starRight->setPosition(410,670);
 	starRight->setAnchorPoint(Point(1,0.5));
 	this->addChild(starRight, 0);
+	starRight->setScale(3);
+	starRight->setVisible(false);
 
 	score = LabelAtlas::create("0","num_result_score.png",43,70,48);
 	score->setAnchorPoint(Point(0.5,0.5));
 	score->setPosition(240+480,560);
 	this->addChild(score);
 
-	int rankNum = PLAYERRANK::getInstance()->getRankList(gameScore);
-	if(rankNum < 10){
-		rankNumLength = 1;
-	}else if(rankNum < 100){
-		rankNumLength = 2;
-	}else if(rankNum < 1000){
-		rankNumLength = 3;
-	}else if(rankNum < 10000){
-		rankNumLength = 4;
-	}else if(rankNum < 100000){
-		rankNumLength = 5;
-	}else if(rankNum < 1000000){
-		rankNumLength = 6;
-	}
-
+	rankNum = PLAYERRANK::getInstance()->getRankList(gameScore);
 	rankTxt = Sprite::create("result_rank.png");
-	rankTxt->setPosition(228-(rankNumLength-1)/2*24+480,460);
-	this->addChild(rankTxt);
-
 	rank = LabelAtlas::create(String::createWithFormat("%d",rankNum)->_string,
 			"num_rank_up.png",24,34,48);
 	rank->setAnchorPoint(Point(0.5,0.5));
-	rank->setPosition(264+(rankNumLength-1)/2*24+480,460);
+	if(rankNum < 10){
+		rankTxt->setPosition(228+480,460);
+		rank->setPosition(276+480,460);
+	}else if(rankNum < 100){
+		rankTxt->setPosition(216+480,460);
+		rank->setPosition(276+480,460);
+	}else if(rankNum < 1000){
+		rankTxt->setPosition(204+480,460);
+		rank->setPosition(276+480,460);
+	}else if(rankNum < 10000){
+		rankTxt->setPosition(192+480,460);
+		rank->setPosition(276+480,460);
+	}else if(rankNum < 100000){
+		rankTxt->setPosition(180+480,460);
+		rank->setPosition(276+480,460);
+	}else if(rankNum < 1000000){
+		rankTxt->setPosition(168+480,460);
+		rank->setPosition(276+480,460);
+	}
+
+	this->addChild(rankTxt);
 	this->addChild(rank);
 
-	int scoreUpNum = CCRANDOM_0_1()*10000;
-	if(scoreUpNum < 10){
-		scoreUpNumLength = 1;
-	}else if(scoreUpNum < 100){
-		scoreUpNumLength = 2;
-	}else if(scoreUpNum < 1000){
-		scoreUpNumLength = 3;
-	}else if(scoreUpNum < 10000){
-		scoreUpNumLength = 4;
-	}
-	scoreUpTxt = Sprite::create("score_up.png");
-	scoreUpTxt->setPosition(228-(scoreUpNumLength-1)/2*24+480,408);
-	this->addChild(scoreUpTxt);
-
-	scoreUp = LabelAtlas::create(String::createWithFormat("%d",scoreUpNum)->_string,
+	scoreUpNum = CCRANDOM_0_1()*10000;
+	scoreUpTxt = Sprite::create("score_up.png");scoreUp = LabelAtlas::create(String::createWithFormat("%d",scoreUpNum)->_string,
 			"num_rank_up.png",24,34,48);
 	scoreUp->setAnchorPoint(Point(0.5,0.5));
-	scoreUp->setPosition(311+(scoreUpNumLength-1)/2*24+480,408);
+	if(scoreUpNum < 10){
+		scoreUpTxt->setPosition(228+480,408);
+		scoreUp->setPosition(311+480,408);
+	}else if(scoreUpNum < 100){
+		scoreUpTxt->setPosition(216+480,408);
+		scoreUp->setPosition(311+480,408);
+	}else if(scoreUpNum < 1000){
+		scoreUpTxt->setPosition(204+480,408);
+		scoreUp->setPosition(311+480,408);
+	}else if(scoreUpNum < 10000){
+		scoreUpTxt->setPosition(192+480,408);
+		scoreUp->setPosition(311+480,408);
+	}
+	this->addChild(scoreUpTxt);
 	this->addChild(scoreUp);
 
-	int rankUpNum = PLAYERRANK::getInstance()->getRankList(scoreNum+scoreUpNum);
-
-	if(rankUpNum < 10){
-		rankUpNumLength = 1;
-	}else if(rankUpNum < 100){
-		rankUpNumLength = 2;
-	}else if(rankUpNum < 1000){
-		rankUpNumLength = 3;
-	}else if(rankUpNum < 10000){
-		rankUpNumLength = 4;
-	}else if(rankUpNum < 100000){
-		rankUpNumLength = 5;
-	}else if(rankUpNum < 1000000){
-		rankUpNumLength = 6;
-	}
-
+	rankUpNum = PLAYERRANK::getInstance()->getRankList(gameScore+scoreUpNum);
 	rankUpTxt = Sprite::create("rank_up.png");
-	rankUpTxt->setPosition(228-(rankUpNumLength-1)/2*24+480,356);
-	this->addChild(rankUpTxt);
-
 	rankUp = LabelAtlas::create(String::createWithFormat("%d",rankUpNum)->_string,
 			"num_rank_up.png",24,34,48);
 	rankUp->setAnchorPoint(Point(0.5,0.5));
-	rankUp->setPosition(363.6+(rankUpNumLength-1)/2*24+480,356);
+
+	if(rankUpNum < 10){
+		rankUpTxt->setPosition(228+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}else if(rankUpNum < 100){
+		rankUpTxt->setPosition(216+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}else if(rankUpNum < 1000){
+		rankUpTxt->setPosition(204+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}else if(rankUpNum < 10000){
+		rankUpTxt->setPosition(192+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}else if(rankUpNum < 100000){
+		rankUpTxt->setPosition(180+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}else if(rankUpNum < 1000000){
+		rankUpTxt->setPosition(168+480,356);
+		rankUp->setPosition(363.5+480,356);
+	}
+
+	this->addChild(rankUpTxt);
 	this->addChild(rankUp);
 
-	int killMoleNum = GAMEDATA::getInstance()->getMouseNum();
-	if(killMoleNum == 0){
-		killMoleNumLength = 1;
-		saveFoodNumLength = 1;
-	}else if(killMoleNum < 10){
-		killMoleNumLength = 1;
-		saveFoodNumLength = 4;
-	}else if(killMoleNum < 100){
-		killMoleNumLength = 2;
-		saveFoodNumLength = 5;
-	}else if(killMoleNum < 1000){
-		killMoleNumLength = 3;
-		saveFoodNumLength = 6;
-	}else if(killMoleNum < 10000){
-		killMoleNumLength = 4;
-		saveFoodNumLength = 7;
-	}
+	killMoleNum = GAMEDATA::getInstance()->getMouseNum();
 	killMoleTxt1 = Sprite::create("result_kill.png");
-	killMoleTxt1->setPosition(192.5-(killMoleNumLength-1)/2*18+480,280);
-	this->addChild(killMoleTxt1);
-
 	killMoleTxt2 = Sprite::create("result_mouse.png");
-	killMoleTxt2->setPosition(287.5+(killMoleNumLength-1)/2*18+480,280);
-	this->addChild(killMoleTxt2);
-
 	killMole = LabelAtlas::create(String::createWithFormat("%d",killMoleNum)->_string,
 			"num_result_kill.png",18,26,48);
 	killMole->setAnchorPoint(Point(0.5,0.5));
-	killMole->setPosition(240+480,280);
-	this->addChild(killMole);
-
-	saveFoodTxt1 = Sprite::create("result_kill.png");
-	saveFoodTxt1->setPosition(179.5-(saveFoodNumLength-1)/2*18+480,240);
-	this->addChild(saveFoodTxt1);
-
-	saveFoodTxt2 = Sprite::create("result_mouse.png");
-	saveFoodTxt2->setPosition(287.5+(saveFoodNumLength-1)/2*18+480,240);
-	this->addChild(saveFoodTxt2);
-
-	saveFood = LabelAtlas::create(String::createWithFormat("%d",GAMEDATA::getInstance()->getMouseNum()*1000)->_string,
+	saveFoodTxt1 = Sprite::create("result_help.png");
+	saveFoodTxt2 = Sprite::create("kg_mice.png");
+	saveFood = LabelAtlas::create(String::createWithFormat("%d",killMoleNum*1000)->_string,
 			"num_result_kill.png",18,26,48);
 	saveFood->setAnchorPoint(Point(0.5,0.5));
-	saveFood->setPosition(227-(saveFoodNumLength-1)/2*18+480,240);
+	if(killMoleNum == 0){
+		killMoleTxt1->setPosition(194.5-9+480,280);
+		killMoleTxt2->setPosition(289.5+9+480,280);
+		killMole->setPosition(240+480,280);
+		saveFoodTxt1->setPosition(179.5+480,240);
+		saveFoodTxt2->setPosition(287.5+480,240);
+		saveFood->setPosition(227+480,240);
+	}else if(killMoleNum < 10){
+		killMoleTxt1->setPosition(194.5-9+480,280);
+		killMoleTxt2->setPosition(289.5+9+480,280);
+		killMole->setPosition(240+480,280);
+		saveFoodTxt1->setPosition(157.5+480,240);
+		saveFoodTxt2->setPosition(319.5+480,240);
+		saveFood->setPosition(232+480,240);
+	}else if(killMoleNum < 100){
+		killMoleTxt1->setPosition(194.5-18+480,280);
+		killMoleTxt2->setPosition(289.5+18+480,280);
+		killMole->setPosition(240+480,280);
+		saveFoodTxt1->setPosition(143.5+480,240);
+		saveFoodTxt2->setPosition(323.5+480,240);
+		saveFood->setPosition(227+480,240);
+	}else if(killMoleNum < 1000){
+		killMoleTxt1->setPosition(194.5-27+480,280);
+		killMoleTxt2->setPosition(289.5+27+480,280);
+		killMole->setPosition(240+480,280);
+		saveFoodTxt1->setPosition(139.5+480,240);
+		saveFoodTxt2->setPosition(337.5+480,240);
+		saveFood->setPosition(232+480,240);
+	}else if(killMoleNum < 10000){
+		killMoleTxt1->setPosition(194.5-36+480,280);
+		killMoleTxt2->setPosition(289.5+36+480,280);
+		killMole->setPosition(240+480,280);
+		saveFoodTxt1->setPosition(125.5+480,240);
+		saveFoodTxt2->setPosition(341.5+480,240);
+		saveFood->setPosition(227+480,240);
+	}
+	this->addChild(killMoleTxt1);
+	this->addChild(killMoleTxt2);
+	this->addChild(killMole);
+	this->addChild(saveFoodTxt1);
+	this->addChild(saveFoodTxt2);
 	this->addChild(saveFood);
 
 	auto contiBtn = MenuItemImage::create(
@@ -229,6 +253,46 @@ void GameResultLayer::update(float delta){
 				hasShowScore = true;
 				score->runAction(MoveTo::create(0.3f,Point(240,560)));
 			}
+			if(gameScore < 8000){
+				if(!showStar1){
+					showStar1 = true;
+					starLeft->setVisible(true);
+					starLeft->runAction(ScaleTo::create(0.4f,1));
+				}
+			}else if(gameScore < 20000){
+				if(!showStar1){
+					showStar1 = true;
+					starLeft->setVisible(true);
+					starLeft->runAction(ScaleTo::create(0.4f,1));
+				}
+				if(animTime > 11){
+					if(!showStar2){
+						showStar2 = true;
+						starMiddle->setVisible(true);
+						starMiddle->runAction(ScaleTo::create(0.4f,1));
+					}
+				}
+			}else{
+				if(!showStar1){
+					showStar1 = true;
+					starLeft->setVisible(true);
+					starLeft->runAction(ScaleTo::create(0.4f,1));
+				}
+				if(animTime > 11){
+					if(!showStar2){
+						showStar2 = true;
+						starMiddle->setVisible(true);
+						starMiddle->runAction(ScaleTo::create(0.4f,1));
+					}
+				}
+				if(animTime > 17){
+					if(!showStar3){
+						showStar3 = true;
+						starRight->setVisible(true);
+						starRight->runAction(ScaleTo::create(0.4f,1));
+					}
+				}
+			}
 		}
 		if(animTime >= 11){
 			scoreNum = (animTime-11)/30 * gameScore;
@@ -240,33 +304,110 @@ void GameResultLayer::update(float delta){
 
 		if(animTime >= 41 && !hasShowRank){
 			hasShowRank = true;
-			rankTxt->runAction(MoveTo::create(0.4f,Point(228,460)));
-			rank->runAction(MoveTo::create(0.4f,Point(264,460)));
+			if(rankNum < 10){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(228,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}else if(rankNum < 100){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(216,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}else if(rankNum < 1000){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(204,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}else if(rankNum < 10000){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(192,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}else if(rankNum < 100000){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(180,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}else if(rankNum < 1000000){
+				rankTxt->runAction(MoveTo::create(0.4f,Point(168,460)));
+				rank->runAction(MoveTo::create(0.4f,Point(276,460)));
+			}
 		}
 
-		if(animTime >= 53 && !hasShowScoreUp){
+		if(animTime >= 47 && !hasShowScoreUp){
 			hasShowScoreUp = true;
-			scoreUpTxt->runAction(MoveTo::create(0.4f,Point(228,408)));
-			scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
-			rankUpTxt->runAction(MoveTo::create(0.4f,Point(228,356)));
-			rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			if(scoreUpNum < 10){
+				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(228,408)));
+				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
+			}else if(scoreUpNum < 100){
+				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(216,408)));
+				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
+			}else if(scoreUpNum < 1000){
+				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(204,408)));
+				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
+			}else if(scoreUpNum < 10000){
+				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(192,408)));
+				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
+			}
+			if(rankUpNum < 10){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(228,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}else if(rankUpNum < 100){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(216,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}else if(rankUpNum < 1000){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(204,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}else if(rankUpNum < 10000){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(192,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}else if(rankUpNum < 100000){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(180,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}else if(rankUpNum < 1000000){
+				rankUpTxt->runAction(MoveTo::create(0.4f,Point(168,356)));
+				rankUp->runAction(MoveTo::create(0.4f,Point(363.5,356)));
+			}
 		}
 
-		if(animTime >= 47 && !hasShowkillMole){
+		if(animTime >= 53 && !hasShowkillMole){
 			hasShowkillMole = true;
-			killMoleTxt1->runAction(MoveTo::create(0.4f,Point(192.5-(killMoleNumLength-1)/2*18,280)));
-			killMoleTxt2->runAction(MoveTo::create(0.4f,Point(287.5+(killMoleNumLength-1)/2*18,280)));
+			if(killMoleNum == 0){
+				killMoleTxt1->runAction(MoveTo::create(0.4f,Point(194.5-9,280)));
+				killMoleTxt2->runAction(MoveTo::create(0.4f,Point(289.5+9,280)));
+			}else if(killMoleNum < 10){
+				killMoleTxt1->runAction(MoveTo::create(0.4f,Point(194.5-9,280)));
+				killMoleTxt2->runAction(MoveTo::create(0.4f,Point(289.5+9,280)));
+			}else if(killMoleNum < 100){
+				killMoleTxt1->runAction(MoveTo::create(0.4f,Point(194.5-18,280)));
+				killMoleTxt2->runAction(MoveTo::create(0.4f,Point(289.5+18,280)));
+			}else if(killMoleNum < 1000){
+				killMoleTxt1->runAction(MoveTo::create(0.4f,Point(194.5-27,280)));
+				killMoleTxt2->runAction(MoveTo::create(0.4f,Point(289.5+27,280)));
+			}else if(killMoleNum < 10000){
+				killMoleTxt1->runAction(MoveTo::create(0.4f,Point(194.5-36,280)));
+				killMoleTxt2->runAction(MoveTo::create(0.4f,Point(289.5+36,280)));
+			}
 			killMole->runAction(MoveTo::create(0.4f,Point(240,280)));
 		}
 
-		if(animTime >= 47 && !hasShowSaveFood){
+		if(animTime >= 59 && !hasShowSaveFood){
 			hasShowSaveFood = true;
-			saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(179.5-(saveFoodNumLength-1)/2*18,240)));
-			saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(287.5+(saveFoodNumLength-1)/2*18,240)));
-			saveFood->runAction(MoveTo::create(0.4f,Point(227-(saveFoodNumLength-1)/2*18,240)));
+			if(killMoleNum == 0){
+				saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(179.5,240)));
+				saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(287.5,240)));
+				saveFood->runAction(MoveTo::create(0.4f,Point(227,240)));
+			}else if(killMoleNum < 10){
+				saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(157.5,240)));
+				saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(319.5,240)));
+				saveFood->runAction(MoveTo::create(0.4f,Point(232,240)));
+			}else if(killMoleNum < 100){
+				saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(143.5,240)));
+				saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(323.5,240)));
+				saveFood->runAction(MoveTo::create(0.4f,Point(227,240)));
+			}else if(killMoleNum < 1000){
+				saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(139.5,240)));
+				saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(337.5,240)));
+				saveFood->runAction(MoveTo::create(0.4f,Point(232,240)));
+			}else if(killMoleNum < 10000){
+				saveFoodTxt1->runAction(MoveTo::create(0.4f,Point(125.5,240)));
+				saveFoodTxt2->runAction(MoveTo::create(0.4f,Point(341.5,240)));
+				saveFood->runAction(MoveTo::create(0.4f,Point(227,240)));
+			}
 		}
 
-		if(animTime >= 59 && !hasShowBtn){
+		if(animTime >= 65 && !hasShowBtn){
 			hasShowBtn = true;
 			contiMenu->runAction(FadeTo::create(2.2f,255));
 			backMenu->runAction(FadeTo::create(2.2f,255));

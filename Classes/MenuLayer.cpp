@@ -16,7 +16,6 @@ bool MenuLayer::init(){
 		return false;
 	}
 	Audio::getInstance()->prepare();
-
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Sprite* background = Sprite::create("menu_bg.png");
 	background->setPosition(visibleSize.width/2,visibleSize.height/2);
@@ -40,7 +39,7 @@ bool MenuLayer::init(){
 		"power_buy_btn_click.png",
 		CC_CALLBACK_0(MenuLayer::buyPower, this));
 	auto buyPowerMenu = Menu::create(btnBuyPower, NULL);
-	buyPowerMenu->setPosition(135,749);
+	buyPowerMenu->setPosition(155,749);
 	this->addChild(buyPowerMenu);
 
 	auto cat = Sprite::create("cat.png");

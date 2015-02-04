@@ -41,10 +41,15 @@ private:
 	Sprite* contiTxt;
 	Sprite* backTxt;
 	bool hasShowBtn;
-	int rankNumLength;
-	int scoreUpNumLength;
-	int rankUpNumLength;
-	int killMoleNumLength;
-	int saveFoodNumLength;
+	int rankNum;
+	int scoreUpNum;
+	int rankUpNum;
+	int killMoleNum;
+	Sprite* starLeft;
+	Sprite* starMiddle;
+	Sprite* starRight;
+	bool showStar1;
+	bool showStar2;
+	bool showStar3;
 };
 #endif

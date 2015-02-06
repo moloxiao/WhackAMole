@@ -9,13 +9,13 @@ public:
 	int getRankPer(int score);
 	int getRankList(int score);
 	const static int LEVEL_0 = 0;
-	const static int LEVEL_1 = 2000;
-	const static int LEVEL_2 = 2000;
-	const static int LEVEL_3 = 40000;
-	const static int LEVEL_4 = 80000;
-	const static int LEVEL_5 = 100000;
-	const static int LEVEL_6 = 120000;
-	const static int LEVEL_7 = 160000;
+	const static int LEVEL_1 = 20000;
+	const static int LEVEL_2 = 60000;
+	const static int LEVEL_3 = 120000;
+	const static int LEVEL_4 = 180000;
+	const static int LEVEL_5 = 240000;
+	const static int LEVEL_6 = 300000;
+	const static int LEVEL_7 = 400000;
 private:
 	PLAYERRANK();
 private:

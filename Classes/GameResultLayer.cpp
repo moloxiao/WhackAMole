@@ -104,7 +104,7 @@ bool GameResultLayer::init(){
 	this->addChild(rankTxt);
 	this->addChild(rank);
 
-	scoreUpNum = CCRANDOM_0_1()*10000;
+	scoreUpNum = CCRANDOM_0_1()*10000+2000;
 	scoreUpTxt = Sprite::create("score_up.png");scoreUp = LabelAtlas::create(String::createWithFormat("%d",scoreUpNum)->_string,
 			"num_rank_up.png",24,34,48);
 	scoreUp->setAnchorPoint(Point(0.5,0.5));
@@ -119,6 +119,9 @@ bool GameResultLayer::init(){
 		scoreUp->setPosition(311+480,408);
 	}else if(scoreUpNum < 10000){
 		scoreUpTxt->setPosition(192+480,408);
+		scoreUp->setPosition(311+480,408);
+	}else if(scoreUpNum < 100000){
+		scoreUpTxt->setPosition(180+480,408);
 		scoreUp->setPosition(311+480,408);
 	}
 	this->addChild(scoreUpTxt);
@@ -254,13 +257,13 @@ void GameResultLayer::update(float delta){
 				hasShowScore = true;
 				score->runAction(MoveTo::create(0.3f,Point(240,560)));
 			}
-			if(gameScore < 8000){
+			if(gameScore < 20000){
 				if(!showStar1){
 					showStar1 = true;
 					starLeft->setVisible(true);
 					starLeft->runAction(ScaleTo::create(0.4f,1));
 				}
-			}else if(gameScore < 20000){
+			}else if(gameScore < 120000){
 				if(!showStar1){
 					showStar1 = true;
 					starLeft->setVisible(true);
@@ -339,6 +342,9 @@ void GameResultLayer::update(float delta){
 				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
 			}else if(scoreUpNum < 10000){
 				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(192,408)));
+				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
+			}else if(scoreUpNum < 100000){
+				scoreUpTxt->runAction(MoveTo::create(0.4f,Point(180,408)));
 				scoreUp->runAction(MoveTo::create(0.4f,Point(311,408)));
 			}
 			if(rankUpNum < 10){

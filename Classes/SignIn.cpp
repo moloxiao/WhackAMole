@@ -271,4 +271,7 @@ void SignIn::hideSelf(){
 	Power::getInstance()->refreshPower();
 	this->setVisible(false);
 	this->removeFromParentAndCleanup(true);
+	if(GAMEDATA::getInstance()->isFirstLogin() && GAMEDATA::getInstance()->getPlayRounds()<=2){
+		Director::getInstance()->replaceScene(TransitionFade::create(1,GameScene::create()));
+	}
 }

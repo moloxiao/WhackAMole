@@ -41,8 +41,10 @@ void PayHandler::payCallback(int requestId,int resultId){
 		if(resultId == 0){
 			GAMEDATA::getInstance()->setNightFightTimes(GAMEDATA::getInstance()->getNightFightTimes()+9);
 			GAMESTATE::getInstance()->setGamePause(false);
+			GameLayer::payResult = true;
 			GameLayer::needAddTime = true;
 		}else{
+			GameLayer::payResult = false;
 			GameLayer::needAddTime = false;
 			GAMESTATE::getInstance()->setGamePause(false);
 		}

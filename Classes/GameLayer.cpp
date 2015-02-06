@@ -10,6 +10,7 @@
 
 bool GameLayer::needAddTime = false;
 bool GameLayer::needDoStartGame = false;
+bool GameLayer::payResult = false;
 
 bool GameLayer::init() {
 	if (!Layer::init()) {
@@ -17,7 +18,10 @@ bool GameLayer::init() {
 	}
 	needAddTime = false;
 	needDoStartGame = false;
-	hasShowPay = false;
+	payResult = false;
+	showPayTimes = 0;
+	showPay = false;
+	GAMEDATA::getInstance()->setFirstLogin(false);
 	int playRounds = GAMEDATA::getInstance()->getPlayRounds();
 	GAMEDATA::getInstance()->setPlayRounds(playRounds + 1);
 	int powerValue = GAMEDATA::getInstance()->getPowerValue();
@@ -296,6 +300,7 @@ void GameLayer::updateGameTime(float delta) {
 		return;
 	}
 	if (needAddTime) {
+		showPay = false;
 		blackBg->setVisible(false);
 		needAddTime = false;
 		gameTime += 20;
@@ -308,7 +313,7 @@ void GameLayer::updateGameTime(float delta) {
 	if (!GAMESTATE::getInstance()->getGameOver()
 			&& !GAMESTATE::getInstance()->getGamePause() && gameTime <= 0) {
 		Size visibleSize = Director::getInstance()->getVisibleSize();
-		if (hasShowPay) {
+		if (showPayTimes > 2 || (payResult==false && showPay)) {
 			gameTime = 0;
 			GAMESTATE::getInstance()->setGameOver(true);
 			flowTitle = Sprite::create("game_over.png");
@@ -318,7 +323,8 @@ void GameLayer::updateGameTime(float delta) {
 				toResultScene();
 			});
 		} else {
-			hasShowPay = true;
+			showPay = true;
+			showPayTimes ++;
 			GAMESTATE::getInstance()->setGamePause(true);
 			auto nightComming = FadeTo::create(2.5f, 255);
 			blackBg->runAction(

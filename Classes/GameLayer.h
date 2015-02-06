@@ -27,6 +27,7 @@ public:
 public:
 	static bool needAddTime;
 	static bool needDoStartGame;
+	static bool payResult;
 private:
 	Vector<Sprite*> _mousesVector;
 	TopMenu* menu;
@@ -34,8 +35,9 @@ private:
 	int gameScore;
 	int gameScoreAdd;
 	int mouseNum;
-	bool hasShowPay;
+	int showPayTimes;
 	Sprite* blackBg;
 	Sprite* flowTitle;
+	bool showPay;
 };
 #endif

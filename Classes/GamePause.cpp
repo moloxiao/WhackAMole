@@ -68,7 +68,7 @@ bool GamePause::init(){
 	this->addChild(contiMenu);
 
 	auto contiTxt = Sprite::create("conti_game_txt.png");
-	contiTxt->setPosition(438,275);
+	contiTxt->setPosition(448,275);
 	contiTxt->setAnchorPoint(Point(1,0.5));
 	this->addChild(contiTxt);
 
@@ -96,6 +96,7 @@ void GamePause::returnGame() {
 
 void GamePause::backMenu(){
 	Audio::getInstance()->playSound("Music/click.ogg");
+	this->removeFromParentAndCleanup(true);
 	GAMESTATE::getInstance()->setGamePause(false);
 	GAMESTATE::getInstance()->setGameOver(true);
 	Director::getInstance()->replaceScene(TransitionFade::create(1,MenuScene::create()));
